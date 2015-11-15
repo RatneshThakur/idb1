@@ -199,8 +199,30 @@ public class SelectStatement extends Statement
 				
 				if(postFix.get(i).equals("+"))
 				{
-					Integer result = current.getField(field1).integer + current.getField(field2).integer;
-					output.push(result.toString());
+					int value2 = 0;
+					int value1 = 1;
+					if(current.getSchema().fieldNameExists(field1))
+					{
+						if(current.getField(field1).type == FieldType.INT)
+						{
+							value1 = current.getField(field1).integer;
+						}
+					}
+					else
+						value1 = Integer.parseInt(field1);
+					if(current.getSchema().fieldNameExists(field2))
+					{
+						if(current.getField(field2).type == FieldType.INT)
+						{
+							value2 = current.getField(field2).integer;
+						}
+					}
+					else
+					{
+						value2 = Integer.parseInt(field2);
+					}
+					
+					output.push(new Integer(value1+ value2).toString());
 				}
 				else if(postFix.get(i).equals("="))
 				{
@@ -226,12 +248,39 @@ public class SelectStatement extends Statement
 					else
 					{
 						value2 = Integer.parseInt(field2);
+					}					
+					output.push(new Boolean(value1 == value2).toString());			
+					
+				}
+				else if(postFix.get(i).equals(">"))
+				{
+					int value2 = 0;
+					int value1 = 1;
+					
+					if(current.getSchema().fieldNameExists(field1))
+					{
+						if(current.getField(field1).type == FieldType.INT)
+						{
+							value1 = current.getField(field1).integer;
+						}
 					}
+					else
+						value1 = Integer.parseInt(field1);
+					if(current.getSchema().fieldNameExists(field2))
+					{
+						if(current.getField(field2).type == FieldType.INT)
+						{
+							value2 = current.getField(field2).integer;
+						}
+					}
+					else
+					{
+						value2 = Integer.parseInt(field2);
+					}
+					output.push(new Boolean(value2>value1).toString());
 					
-					output.push(new Boolean(value1 == value2).toString());
-					
-					
-				}			
+				}
+				
 			}
 			else
 				output.push(postFix.get(i));
@@ -240,6 +289,16 @@ public class SelectStatement extends Statement
 		return new Boolean(output.pop());
 		
 	}
+	
+	private boolean booleanEvaluate()
+	{
+		return false;
+	}
+	private int numberEvaluate()
+	{
+		return 1;
+	}
+	
 	private ArrayList<String> createPostFix(String whereClause)
 	{
 		String[] tokens = whereClause.split(" ");
