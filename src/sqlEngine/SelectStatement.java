@@ -184,9 +184,10 @@ public class SelectStatement extends Statement
 		opMap.put("*", 2);
 		opMap.put("-",2);
 		opMap.put("=",1);
-		opMap.put("AND",1);
-		opMap.put("OR",1);
+		opMap.put("AND",0);
+		opMap.put("OR",0);
 		opMap.put(">", 1);
+		opMap.put("<", 1);
 		
 		Stack<String> output = new Stack<String>();
 		
@@ -198,87 +199,40 @@ public class SelectStatement extends Statement
 				String field2 = output.pop();
 				
 				if(postFix.get(i).equals("+"))
-				{
-					int value2 = 0;
-					int value1 = 1;
-					if(current.getSchema().fieldNameExists(field1))
-					{
-						if(current.getField(field1).type == FieldType.INT)
-						{
-							value1 = current.getField(field1).integer;
-						}
-					}
-					else
-						value1 = Integer.parseInt(field1);
-					if(current.getSchema().fieldNameExists(field2))
-					{
-						if(current.getField(field2).type == FieldType.INT)
-						{
-							value2 = current.getField(field2).integer;
-						}
-					}
-					else
-					{
-						value2 = Integer.parseInt(field2);
-					}
-					
-					output.push(new Integer(value1+ value2).toString());
+				{					
+					numberEvaluate(current, field1, field2, output, postFix.get(i));					
+				}
+				else if(postFix.get(i).equals("-"))
+				{						
+					numberEvaluate(current, field1, field2, output, postFix.get(i));					
+				}
+				else if(postFix.get(i).equals("*"))
+				{						
+					numberEvaluate(current, field1, field2, output, postFix.get(i));					
+				}
+				else if(postFix.get(i).equals("/"))
+				{						
+					numberEvaluate(current, field1, field2, output, postFix.get(i));					
 				}
 				else if(postFix.get(i).equals("="))
 				{
-					int value2=0;
-					int value1=1;
-					
-					if(current.getSchema().fieldNameExists(field1))
-					{
-						if(current.getField(field1).type == FieldType.INT)
-						{
-							value1 = current.getField(field1).integer;
-						}
-					}
-					else
-						value1 = Integer.parseInt(field1);
-					if(current.getSchema().fieldNameExists(field2))
-					{
-						if(current.getField(field2).type == FieldType.INT)
-						{
-							value2 = current.getField(field2).integer;
-						}
-					}
-					else
-					{
-						value2 = Integer.parseInt(field2);
-					}					
-					output.push(new Boolean(value1 == value2).toString());			
-					
+					booleanEvaluate(current, field1, field2, output, postFix.get(i));		
 				}
 				else if(postFix.get(i).equals(">"))
+				{						
+					booleanEvaluate(current, field1, field2, output, postFix.get(i));
+				}
+				else if(postFix.get(i).equals("<"))
+				{					
+					booleanEvaluate(current, field1, field2, output, postFix.get(i));
+				}
+				else if(postFix.get(i).equals("AND"))
 				{
-					int value2 = 0;
-					int value1 = 1;
-					
-					if(current.getSchema().fieldNameExists(field1))
-					{
-						if(current.getField(field1).type == FieldType.INT)
-						{
-							value1 = current.getField(field1).integer;
-						}
-					}
-					else
-						value1 = Integer.parseInt(field1);
-					if(current.getSchema().fieldNameExists(field2))
-					{
-						if(current.getField(field2).type == FieldType.INT)
-						{
-							value2 = current.getField(field2).integer;
-						}
-					}
-					else
-					{
-						value2 = Integer.parseInt(field2);
-					}
-					output.push(new Boolean(value2>value1).toString());
-					
+					booleanLogicalEvaluate(current, field1, field2, output, postFix.get(i));
+				}
+				else if(postFix.get(i).equals("OR"))
+				{
+					booleanLogicalEvaluate(current, field1, field2, output, postFix.get(i));
 				}
 				
 			}
@@ -290,13 +244,100 @@ public class SelectStatement extends Statement
 		
 	}
 	
-	private boolean booleanEvaluate()
+	private void booleanLogicalEvaluate(Tuple current, String field1, String field2, Stack<String> output, String operator)
 	{
-		return false;
+		boolean value1;
+		boolean value2;
+		
+		try{
+		value1 = Boolean.parseBoolean(field1);
+		value2 = Boolean.parseBoolean(field2);
+		
+		if(operator.equals("AND"))
+			output.push(new Boolean(value2&&value1).toString());
+		else if(operator.equals("OR"))
+			output.push(new Boolean(value2||value1).toString());
+		else
+			output.push(new Boolean(false).toString());
+		}
+		catch(Exception ex)
+		{
+			output.push(new Boolean(false).toString());
+		}
 	}
-	private int numberEvaluate()
+	
+	private void booleanEvaluate(Tuple current, String field1, String field2, Stack<String> output, String operator)
 	{
-		return 1;
+		
+		int value2 = 0;
+		int value1 = 1;
+		
+		if(current.getSchema().fieldNameExists(field1))
+		{
+			if(current.getField(field1).type == FieldType.INT)
+			{
+				value1 = current.getField(field1).integer;
+			}
+		}
+		else
+			value1 = Integer.parseInt(field1);
+		if(current.getSchema().fieldNameExists(field2))
+		{
+			if(current.getField(field2).type == FieldType.INT)
+			{
+				value2 = current.getField(field2).integer;
+			}
+		}
+		else
+		{
+			value2 = Integer.parseInt(field2);
+		}
+		
+		if(operator.equals(">"))
+			output.push(new Boolean(value2>value1).toString());
+		else if(operator.equals("="))
+			output.push(new Boolean(value2 == value1).toString());
+		else if(operator.equals("<"))			
+			output.push(new Boolean(value2<value1).toString());			
+		else
+			output.push(new Boolean(false).toString());
+		
+	}
+	private void numberEvaluate(Tuple current, String field1, String field2, Stack<String> output, String operator)
+	{
+		int value1 = 0;
+		int value2 = 0;
+		if(current.getSchema().fieldNameExists(field1))
+		{
+			if(current.getField(field1).type == FieldType.INT)
+			{
+				value1 = current.getField(field1).integer;
+			}
+		}
+		else
+			value1 = Integer.parseInt(field1);
+		if(current.getSchema().fieldNameExists(field2))
+		{
+			if(current.getField(field2).type == FieldType.INT)
+			{
+				value2 = current.getField(field2).integer;
+			}
+		}
+		else
+		{
+			value2 = Integer.parseInt(field2);
+		}
+		
+		if(operator.equals("+"))
+			output.push(new Integer(value2 + value1).toString());
+		else if(operator.equals("-"))
+			output.push(new Integer(value2 - value1).toString());
+		else if(operator.equals("*"))
+			output.push(new Integer(value2 * value1).toString());
+		else if(operator.equals("/"))
+			output.push(new Integer(value2 / value1).toString());
+		else
+			output.push(new Integer(value1).toString());
 	}
 	
 	private ArrayList<String> createPostFix(String whereClause)
@@ -310,11 +351,12 @@ public class SelectStatement extends Statement
 		opMap.put("+", 2);
 		opMap.put("/", 2);
 		opMap.put("*", 2);
-		opMap.put("-",1);
+		opMap.put("-",2);
 		opMap.put("=",1);
-		opMap.put("AND",1);
-		opMap.put("OR",1);
+		opMap.put("AND",0);
+		opMap.put("OR",0);
 		opMap.put(">", 1);
+		opMap.put("<", 1);
 		
 		for(int i=0; i<tokens.length; i++)
 		{
