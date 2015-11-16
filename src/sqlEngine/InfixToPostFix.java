@@ -4,7 +4,7 @@ import java.util.*;
 public class InfixToPostFix {
 	public static void main(String[] args)
 	{
-		String where = "homework = 100 AND project = 98";
+		String where = "homework = 100 AND NOT project = 98";
 		Stack<String> s = new Stack<String>();
 		ArrayList<String> postFix = createPostFix(where,s);
 		
@@ -33,6 +33,7 @@ public class InfixToPostFix {
 		opMap.put("=",1);
 		opMap.put("AND",0);
 		opMap.put("OR",0);
+		opMap.put("NOT",0);
 		opMap.put(">", 1);
 		
 		for(int i=0; i<tokens.length; i++)
@@ -89,8 +90,9 @@ public class InfixToPostFix {
 		opMap.put("*", 2);
 		opMap.put("-",1);
 		opMap.put("=",1);
-		opMap.put("AND",1);
-		opMap.put("OR",1);
+		opMap.put("AND",0);
+		opMap.put("OR",0);
+		opMap.put("NOT",0);
 		opMap.put(">", 1);
 		
 		Stack<String> output = new Stack<String>();

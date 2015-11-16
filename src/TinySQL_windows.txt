@@ -1,0 +1,17 @@
+CREATE TABLE course (sid INT, homework INT, project INT, exam INT, grade STR20)
+INSERT INTO course (sid, homework, project, exam, grade) VALUES (1, 100, 100, 100, "A")
+INSERT INTO course (sid, homework, project, exam, grade) VALUES (2, 98, 99, 99, "B")
+INSERT INTO course (sid, homework, project, exam, grade) VALUES (3, 100, 98, 91, "C")
+SELECT * FROM course
+SELECT sid, grade FROM course 
+SELECT sid, homework, grade FROM course WHERE homework = 100
+SELECT sid, homework, grade FROM course WHERE homework = project
+SELECT sid, homework, grade FROM course WHERE homework + project = 200
+SELECT sid, homework, grade FROM course WHERE homework - project = 0
+SELECT sid, homework, grade FROM course WHERE homework - project = -1
+SELECT sid, homework, grade FROM course WHERE homework * 2 = 200
+SELECT sid, homework, grade FROM course WHERE homework / 2 = 50
+SELECT sid, homework, grade FROM course WHERE homework > 98
+SELECT sid, homework, grade FROM course WHERE homework < 100
+SELECT * FROM course WHERE homework = 100 AND project = 98
+SELECT * FROM course WHERE project = 98 OR project = 99
