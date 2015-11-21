@@ -230,31 +230,40 @@ class Statement
 		int value2 = 0;
 		int value1 = 1;
 		
-		if(current.getSchema().fieldNameExists(field1))
-		{
-			if(current.getField(field1).type == FieldType.INT)
-			{
-				value1 = current.getField(field1).integer;
-			}
-		}
-		else
-			value1 = Integer.parseInt(field1);
+		String stringValue1 = "";
+		String stringValue2 = "";
+		
+		boolean isFieldString = false;
+		
 		if(current.getSchema().fieldNameExists(field2))
 		{
 			if(current.getField(field2).type == FieldType.INT)
 			{
+				isFieldString = false;
 				value2 = current.getField(field2).integer;
 			}
-		}
+			else if( current.getField(field2).type == FieldType.STR20 )
+			{
+				isFieldString = true;
+				stringValue2 = current.getField(field2).str;
+			}
+		}		
+		
+		
+		if(isFieldString == false)
+			value1 = Integer.parseInt(field1);
 		else
-		{
-			value2 = Integer.parseInt(field2);
-		}
+			stringValue1 = field1;
+		
+			
+		
 		
 		if(operator.equals(">"))
 			output.push(new Boolean(value2>value1).toString());
-		else if(operator.equals("="))
+		else if(operator.equals("=") && (isFieldString == false))
 			output.push(new Boolean(value2 == value1).toString());
+		else if(operator.equals("=") && (isFieldString == true))
+			output.push(new Boolean(stringValue1.equals(stringValue2)).toString());
 		else if(operator.equals("<"))			
 			output.push(new Boolean(value2<value1).toString());			
 		else
