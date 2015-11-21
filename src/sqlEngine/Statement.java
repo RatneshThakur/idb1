@@ -52,7 +52,7 @@ class Statement
 		else if(stmtSplit[0].equals("SELECT"))
 		{
 			SelectStatement selectStmt = new SelectStatement(stmt,mem,disk,schema_manager);
-			selectStmt.runStatement();
+			selectStmt.runStatement(false);
 		}
 		else if(stmtSplit[0].equals("DELETE"))
 		{

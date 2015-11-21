@@ -1,6 +1,7 @@
 package sqlEngine;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,6 +36,8 @@ public class InsertStatement extends Statement
 		stmt = stmt.replace('(', '{');
 		stmt = stmt.replace(')', '}');
 		
+		boolean isSelectPresent = false;
+		
 		List<String> allMatches = new ArrayList<String>();
 		 Matcher m = Pattern.compile("\\{([^}]*)\\}")
 		     .matcher(stmt);
@@ -44,40 +47,74 @@ public class InsertStatement extends Statement
 		   allMatches.add(matchedPart);		   
 		 }	
 		
-		attrNames = allMatches.get(0).split(",");
-		attrValues = allMatches.get(1).split(",");		
+		 ArrayList<ArrayList<String>> valuesList = new ArrayList<ArrayList<String>>(); 
+		 
+		if(stmt.contains("SELECT"))
+		{
+			isSelectPresent = true;
+			attrNames = allMatches.get(0).split(",");
+			m = Pattern.compile("SELECT(.*)")
+				     .matcher(stmt);
+				 while (m.find()) {
+				   String matchedPart = m.group();
+				   System.out.println(" select statement is " + matchedPart);				   
+				   
+				   SelectStatement selectStmt = new SelectStatement(stmt,mem,disk,schema_manager);
+				   valuesList = selectStmt.runStatement(true);
+ 				 }
+		}
+		else
+		{
+			attrNames = allMatches.get(0).split(",");
+			attrValues = allMatches.get(1).split(",");
+			
+			//removing extra spaces if any
+			for(int i=0; i<attrNames.length; i++)
+			{				
+				attrValues[i] = attrValues[i].trim();
+			}		
+			
+			ArrayList<String> aListOfValues = new ArrayList<String>( Arrays.asList(attrValues) );
+			valuesList.add(aListOfValues);
+		}
+		
 		//removing extra spaces if any
 		for(int i=0; i<attrNames.length; i++)
 		{
-			attrNames[i] = attrNames[i].trim();
-			attrValues[i] = attrValues[i].trim();
-		}		 
+			attrNames[i] = attrNames[i].trim();			
+		}
+		 
+		 
 		//parsing logic ends 
 		
 		//now attributes names and values have been collected.Lets create a tuple
-		Tuple tuple = relation_reference.createTuple();
-		for(int i=0; i<attrNames.length; i++)
+		for( int j = 0; j< valuesList.size(); j++)
 		{
-			try
+			Tuple tuple = relation_reference.createTuple();
+			
+			attrValues = new String[valuesList.get(j).size()];
+			attrValues = valuesList.get(j).toArray(attrValues);
+			for(int i=0; i<attrNames.length; i++)
 			{
-				int val = Integer.parseInt(attrValues[i]);
-				tuple.setField(attrNames[i], val);
-			}
-			catch(NumberFormatException ex)
-			{
-				tuple.setField(attrNames[i], attrValues[i]);
-			}
-			//tuple.setField(attrNames[i],"v11");
+				try
+				{
+					int val = Integer.parseInt(attrValues[i]);
+					tuple.setField(attrNames[i], val);
+				}
+				catch(NumberFormatException ex)
+				{
+					tuple.setField(attrNames[i], attrValues[i]);
+				}
+				//tuple.setField(attrNames[i],"v11");			    
+			}			
+			Block block_reference=mem.getBlock(0); //access to memory block 0
+		    block_reference.clear(); //clear the block
 		    
+		    block_reference.appendTuple(tuple);		    
+			
+		    Parser.appendTupleToRelation(relation_reference, mem, 9, tuple);
 		}
-		
-		Block block_reference=mem.getBlock(0); //access to memory block 0
-	    block_reference.clear(); //clear the block
-	    
-	    block_reference.appendTuple(tuple);
-	    
-		
-	    Parser.appendTupleToRelation(relation_reference, mem, 9, tuple);	    
+			    
 	   
 		return true;
 	}

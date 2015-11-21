@@ -4,6 +4,15 @@ import java.util.*;
 public class InfixToPostFix {
 	public static void main(String[] args)
 	{
+		String test = "asjdflasf  SELECT asdlfkjakl sd asdjflkas df asdfkljasdlfk asdf asldf jlk fds";
+		if(test.contains("SELECT"))
+		{
+			System.out.println("SLECT is present");
+		}
+		else
+		{
+			System.out.println("SElect is not present");
+		}
 		String where = "[ NOT project = 99 ] AND [ homework = 100 ]";
 		Stack<String> s = new Stack<String>();
 		ArrayList<String> postFix = createPostFix(where,s);

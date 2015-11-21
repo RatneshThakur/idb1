@@ -1,6 +1,6 @@
 package sqlEngine;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.util.HashMap;
 import java.util.Stack;
 import java.util.regex.Matcher;
@@ -31,7 +31,7 @@ public class SelectStatement extends Statement
 		super(stmt_var,mem_var,disk_var,schema_manager_var);
 	}
 	
-	public boolean runStatement()
+	public ArrayList<ArrayList<String>> runStatement(boolean isPartOfQuery)
 	{
 		//parsing logic starts here
 		String pattern1 = "SELECT";
@@ -89,14 +89,21 @@ public class SelectStatement extends Statement
 		else
 		  fieldNames = attrList;
 		
-		for( int i=0; i<fieldNames.size(); i++)
+		if( isPartOfQuery == false)
 		{
-			System.out.print(fieldNames.get(i));
-			System.out.print("   |  ");
+			for( int i=0; i<fieldNames.size(); i++)
+			{
+				System.out.print(fieldNames.get(i));
+				System.out.print("   |  ");
+			}
+			System.out.println(" ");
+			System.out.println("----------------------------------------------------");
 		}
-		System.out.println(" ");
-		System.out.println("----------------------------------------------------");
 		
+		
+		ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
+		
+		ArrayList<String> aListOfValues = new ArrayList<String>();
 		
 		for(int i=0; i<relation_reference.getNumOfBlocks(); i++)
 		{			
@@ -109,14 +116,37 @@ public class SelectStatement extends Statement
 			{
 				for(int j=0; j<fieldNames.size(); j++)
 				{
-					System.out.print("\t" + current.getField(fieldNames.get(j)));
+					if(isPartOfQuery == false)
+						System.out.print("\t" + current.getField(fieldNames.get(j)));
+					else
+					{
+						if(current.getField(fieldNames.get(j)).type == FieldType.INT)
+						{
+							aListOfValues.add(new Integer( current.getField(fieldNames.get(j)).integer).toString());
+						}
+						else if(current.getField(fieldNames.get(j)).type == FieldType.STR20)
+						{
+							aListOfValues.add(new String( current.getField(fieldNames.get(j)).str));
+						}
+					}
 				}
-				System.out.println(" ");
+				if( isPartOfQuery == false)
+					System.out.println(" ");
+				else
+				{
+					output.add(aListOfValues);
+					aListOfValues = new ArrayList<String>();
+				}
 			}
 			
 		}
 		
-		return true;
+		if(aListOfValues.size() > 0)
+		{
+			output.add(aListOfValues);
+		}
+		
+		return output;
 	}	
 	
 	
