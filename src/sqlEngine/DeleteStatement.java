@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import storageManager.Block;
 import storageManager.Disk;
+import storageManager.FieldType;
 import storageManager.MainMemory;
 import storageManager.Relation;
 import storageManager.SchemaManager;
+import storageManager.Tuple;
 
 public class DeleteStatement extends Statement
 {
@@ -27,32 +30,45 @@ public class DeleteStatement extends Statement
 	
 	public void runStatement()
 	{
-		String pattern1 = "FROM";
-		String pattern2 = "WHERE";
-		String whereCondition = "";
-		ArrayList<String> tableNames = new ArrayList<String>();
-		Pattern p = Pattern.compile(Pattern.quote(pattern1) + "(.*?)" + Pattern.quote(pattern2));
-		Matcher m = p.matcher(stmt);
-		String allTables = "";
-		while(m.find())
-		{
-			allTables = m.group(1);				
-		}
-		
-		String[] allTablesSplit = allTables.split(",");
-		for(int i=0; i<allTablesSplit.length; i++)
-		{
-			tableNames.add(allTablesSplit[i].trim());
-		}
-		
-		//now getting the condition from where clause
-		p = Pattern.compile(Pattern.quote(pattern2) + "(.*)");
-		m = p.matcher(stmt);			
-		if ( m.find() ) {
-			whereCondition = m.group(1);
-		}
-		System.out.println(" Where condition is " + whereCondition);
-		
+		//getting all table names now
+				String pattern1 = "FROM";
+				String pattern2 = "WHERE";
+				ArrayList<String> tableNames = new ArrayList<String>();
+
+				
+				String whereCondition = getTableNames(tableNames,pattern1,pattern2);
+						
+				//parsing logic ends here
+				
+				relation_reference = schema_manager.getRelation(tableNames.get(0));
+				
+				//was getting everything in once
+				//relation_reference.getBlocks(0,3,relation_reference.getNumOfBlocks());
+				//System.out.print("Relation state before deletion: " + "\n");
+			    //System.out.print(relation_reference + "\n");
+			    
+				
+				ArrayList<String> fieldNames = new ArrayList<String>();				
+				int count = 0;
+				for(int i=0; i<relation_reference.getNumOfBlocks(); i++)
+				{			
+					relation_reference.getBlock(i,3);					
+					Block block_reference=mem.getBlock(3);
+					Tuple current = block_reference.getTuple(0);
+					if(current.isNull())
+						continue;
+					if(testCondition(current,whereCondition) == true)
+					{	
+						count++;
+						block_reference.invalidateTuple(0);
+					    relation_reference.setBlock(i,3);
+					}
+					
+				}
+				
+				System.out.println(" " + count + " records/tuples deleted successfully ");
+				//System.out.print("Relation state after deletion: " + "\n");
+			    //System.out.print(relation_reference + "\n");
 		
 	}
 }

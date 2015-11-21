@@ -15,3 +15,5 @@ SELECT sid, homework, grade FROM course WHERE homework > 98
 SELECT sid, homework, grade FROM course WHERE homework < 100
 SELECT * FROM course WHERE homework = 100 AND project = 98
 SELECT * FROM course WHERE project = 98 OR project = 99
+SELECT * FROM course WHERE grade = "A"
+SELECT * FROM course WHERE NOT [ grade = "A" ]

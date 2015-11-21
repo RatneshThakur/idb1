@@ -112,6 +112,12 @@ public class SelectStatement extends Statement
 			Block block_reference=mem.getBlock(3);
 			Tuple current = block_reference.getTuple(0);
 			
+			if( current.isNull())
+			{
+				// hole vala tuple
+				continue;
+			}
+			
 			if(testCondition(current,whereCondition) == true)
 			{
 				for(int j=0; j<fieldNames.size(); j++)
@@ -120,6 +126,7 @@ public class SelectStatement extends Statement
 						System.out.print("\t" + current.getField(fieldNames.get(j)));
 					else
 					{
+						
 						if(current.getField(fieldNames.get(j)).type == FieldType.INT)
 						{
 							aListOfValues.add(new Integer( current.getField(fieldNames.get(j)).integer).toString());
