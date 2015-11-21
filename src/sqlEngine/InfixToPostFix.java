@@ -4,7 +4,7 @@ import java.util.*;
 public class InfixToPostFix {
 	public static void main(String[] args)
 	{
-		String where = "homework = 100 AND NOT project = 98";
+		String where = "[ NOT project = 99 ] AND [ homework = 100 ]";
 		Stack<String> s = new Stack<String>();
 		ArrayList<String> postFix = createPostFix(where,s);
 		
