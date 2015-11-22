@@ -122,16 +122,18 @@ class Statement
 		if(postFix.size() == 0)
 			return true;
 		HashMap<String, Integer> opMap = new HashMap<String,Integer>();
-		opMap.put("+", 2);
-		opMap.put("/", 2);
-		opMap.put("*", 2);
-		opMap.put("-",2);
-		opMap.put("=",1);
-		opMap.put("AND",0);
+		//precedence is according to oracle site.
+		// https://docs.oracle.com/cd/B19188_01/doc/B15917/sqopr.htm
+		opMap.put("/", 5);
+		opMap.put("*", 5);
+		opMap.put("+", 4);
+		opMap.put("-",4);
+		opMap.put("=",3);
+		opMap.put(">", 3);
+		opMap.put("<", 3);
+		opMap.put("NOT",2);
+		opMap.put("AND",1);
 		opMap.put("OR",0);
-		opMap.put(">", 1);
-		opMap.put("<", 1);
-		opMap.put("NOT",0);
 		
 		
 		Stack<String> output = new Stack<String>();
@@ -235,6 +237,9 @@ class Statement
 		String stringValue2 = "";
 		
 		boolean stringCompare = false;
+		
+		field2 = field2.substring(field2.lastIndexOf(".") + 1);
+		field1 = field1.substring(field1.lastIndexOf(".") + 1);
 		
 		if(current.getSchema().fieldNameExists(field1))
 		{
@@ -345,16 +350,22 @@ class Statement
 		ArrayList<String> postFix = new ArrayList<String>();
 		
 		HashMap<String, Integer> opMap = new HashMap<String,Integer>();
-		opMap.put("+", 2);
-		opMap.put("/", 2);
-		opMap.put("*", 2);
-		opMap.put("-",2);
-		opMap.put("=",1);
-		opMap.put("AND",0);
+		
+		//precedence is according to oracle site. Higher no - higher priority
+		// https://docs.oracle.com/cd/B19188_01/doc/B15917/sqopr.htm
+		 
+		opMap.put("/", 5);
+		opMap.put("*", 5);
+		opMap.put("+", 4);
+		opMap.put("-",4);
+		opMap.put("=",3);
+		opMap.put(">", 3);
+		opMap.put("<", 3);
+		opMap.put("NOT",2);
+		opMap.put("AND",1);
 		opMap.put("OR",0);
-		opMap.put(">", 1);
-		opMap.put("<", 1);
-		opMap.put("NOT",0);
+		
+		
 		
 		for(int i=0; i<tokens.length; i++)
 		{
