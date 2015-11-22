@@ -15,7 +15,7 @@ public class InfixToPostFix {
 		{
 			System.out.println("SElect is not present");
 		}
-		String where = "( NOT project = 99 ) AND [ homework = 100 ]";
+		String where = "project + homework = 200";
 		Stack<String> s = new Stack<String>();
 		ArrayList<String> postFix = createPostFix(where,s);
 		
@@ -38,14 +38,14 @@ public class InfixToPostFix {
 		
 		HashMap<String, Integer> opMap = new HashMap<String,Integer>();
 		opMap.put("+", 2);
-		opMap.put("/", 2);
-		opMap.put("*", 2);
+		opMap.put("/", 4);
+		opMap.put("*", 3);
 		opMap.put("-",2);
 		opMap.put("=",1);
-		opMap.put("AND",0);
-		opMap.put("OR",0);
-		opMap.put("NOT",0);
-		opMap.put(">", 1);
+		opMap.put("AND",-3);
+		opMap.put("OR",-2);
+		opMap.put("NOT",-1);
+		opMap.put(">", 0);
 		
 		ArrayList<String> brackets = new ArrayList<String>();
 		brackets.add("(");
@@ -107,8 +107,8 @@ public class InfixToPostFix {
 		opMap.put("*", 2);
 		opMap.put("-",1);
 		opMap.put("=",1);
-		opMap.put("AND",0);
-		opMap.put("OR",0);
+		opMap.put("AND",-2);
+		opMap.put("OR",-1);
 		opMap.put("NOT",0);
 		opMap.put(">", 1);
 		

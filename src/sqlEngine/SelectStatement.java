@@ -63,6 +63,7 @@ public class SelectStatement extends Statement
 			String[] colSplit = columnNames.get(0).split(",");
 			for(int i=0; i< colSplit.length; i++)
 			{
+				colSplit[i] = colSplit[i].substring(colSplit[i].lastIndexOf(".") + 1);				
 				attrList.add(colSplit[i].trim());
 			}
 		}

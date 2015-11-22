@@ -133,6 +133,7 @@ class Statement
 		opMap.put("<", 1);
 		opMap.put("NOT",0);
 		
+		
 		Stack<String> output = new Stack<String>();
 		
 		for(int i=0; i<postFix.size(); i++)
@@ -233,37 +234,65 @@ class Statement
 		String stringValue1 = "";
 		String stringValue2 = "";
 		
-		boolean isFieldString = false;
+		boolean stringCompare = false;
 		
+		if(current.getSchema().fieldNameExists(field1))
+		{
+			if(current.getField(field1).type == FieldType.INT)
+			{
+				value1 = current.getField(field1).integer;
+			}
+			else if( current.getField(field1).type == FieldType.STR20)
+			{
+				stringValue1 = current.getField(field1).str;
+				stringCompare = true;
+			}
+		}
+		else
+		{
+			try{
+				value1 = Integer.parseInt(field1);
+			}
+			catch(NumberFormatException ex)
+			{
+				stringValue1 = field1;
+				stringCompare = true;
+			}
+			
+			
+		}
+			
 		if(current.getSchema().fieldNameExists(field2))
 		{
 			if(current.getField(field2).type == FieldType.INT)
 			{
-				isFieldString = false;
 				value2 = current.getField(field2).integer;
 			}
-			else if( current.getField(field2).type == FieldType.STR20 )
+			else if( current.getField(field2).type == FieldType.STR20)
 			{
-				isFieldString = true;
 				stringValue2 = current.getField(field2).str;
+				stringCompare = true;
 			}
-		}		
-		
-		
-		if(isFieldString == false)
-			value1 = Integer.parseInt(field1);
+		}
 		else
-			stringValue1 = field1;
-		
+		{
+			try{
+				value2 = Integer.parseInt(field2);
+			}
+			catch(NumberFormatException ex)
+			{
+				stringValue2 = field2;
+				stringCompare = true;
+			}
 			
-		
+		}
 		
 		if(operator.equals(">"))
 			output.push(new Boolean(value2>value1).toString());
-		else if(operator.equals("=") && (isFieldString == false))
+		else if(operator.equals("=") && (stringCompare == false))
 			output.push(new Boolean(value2 == value1).toString());
-		else if(operator.equals("=") && (isFieldString == true))
-			output.push(new Boolean(stringValue1.equals(stringValue2)).toString());
+		else if(operator.equals("=") && (stringCompare == true))
+			output.push(new Boolean(stringValue2.equals(stringValue1)).toString());
 		else if(operator.equals("<"))			
 			output.push(new Boolean(value2<value1).toString());			
 		else
@@ -274,6 +303,8 @@ class Statement
 	{
 		int value1 = 0;
 		int value2 = 0;
+		field2 = field2.substring(field2.lastIndexOf(".") + 1);
+		field1 = field1.substring(field1.lastIndexOf(".") + 1);
 		if(current.getSchema().fieldNameExists(field1))
 		{
 			if(current.getField(field1).type == FieldType.INT)
@@ -294,7 +325,6 @@ class Statement
 		{
 			value2 = Integer.parseInt(field2);
 		}
-		
 		if(operator.equals("+"))
 			output.push(new Integer(value2 + value1).toString());
 		else if(operator.equals("-"))
