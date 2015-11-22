@@ -54,16 +54,18 @@ public class DeleteStatement extends Statement
 				{			
 					relation_reference.getBlock(i,3);					
 					Block block_reference=mem.getBlock(3);
-					Tuple current = block_reference.getTuple(0);
-					if(current.isNull())
-						continue;
-					if(testCondition(current,whereCondition) == true)
-					{	
-						count++;
-						block_reference.invalidateTuple(0);
-					    relation_reference.setBlock(i,3);
-					}
 					
+					for( int j=0; j< block_reference.getNumTuples(); j++)
+					{
+						Tuple current = block_reference.getTuple(j);
+						
+						if(current.isNull() == false && testCondition(current,whereCondition) == true)
+						{	
+							count++;
+							block_reference.invalidateTuple(j);						    
+						}
+					}
+					relation_reference.setBlock(i,3);
 				}
 				
 				System.out.println(" " + count + " records/tuples deleted successfully ");

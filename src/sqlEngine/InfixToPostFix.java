@@ -5,6 +5,8 @@ public class InfixToPostFix {
 	public static void main(String[] args)
 	{
 		String test = "asjdflasf  SELECT asdlfkjakl sd asdjflkas df asdfkljasdlfk asdf asldf jlk fds";
+		int num = 1 - 2 + 3;
+		System.out.println(" The value of no is  " + num);
 		if(test.contains("SELECT"))
 		{
 			System.out.println("SLECT is present");
@@ -13,7 +15,7 @@ public class InfixToPostFix {
 		{
 			System.out.println("SElect is not present");
 		}
-		String where = "[ NOT project = 99 ] AND [ homework = 100 ]";
+		String where = "( NOT project = 99 ) AND [ homework = 100 ]";
 		Stack<String> s = new Stack<String>();
 		ArrayList<String> postFix = createPostFix(where,s);
 		
@@ -45,19 +47,25 @@ public class InfixToPostFix {
 		opMap.put("NOT",0);
 		opMap.put(">", 1);
 		
+		ArrayList<String> brackets = new ArrayList<String>();
+		brackets.add("(");
+		brackets.add("[");
+		brackets.add("]");
+		brackets.add(")");
+		
 		for(int i=0; i<tokens.length; i++)
 		{
-			if((opMap.containsKey(tokens[i]) == false) && !(tokens[i].equals("[")) && !(tokens[i].equals("]")) )
+			if((opMap.containsKey(tokens[i]) == false) && !brackets.contains(tokens[i]))
 			{
 				postFix.add(tokens[i]);
 			}
-			else if(tokens[i].equals("["))
+			else if(tokens[i].equals("[") || tokens[i].equals("(s"))
 			{
 				opStack.push(tokens[i]);
 			}
 			else if(opMap.containsKey(tokens[i]) == true)
 			{
-				while((opStack.size() > 0 ) && !(opStack.peek().equals("[")))
+				while((opStack.size() > 0 ) && !(  opStack.peek().equals("[") || opStack.peek().equals("(") ))
 				{
 					String topOp = opStack.peek();
 					if( opMap.get(topOp) > opMap.get(tokens[i]))
@@ -69,9 +77,9 @@ public class InfixToPostFix {
 				}
 				opStack.push(tokens[i]);
 			}
-			else if(tokens[i].equals("]"))
+			else if(tokens[i].equals("]") || tokens[i].equals(")"))
 			{
-				while ((opStack.size() > 0) && !(opStack.peek().equals("[")))
+				while ((opStack.size() > 0) && !(  opStack.peek().equals("[") || opStack.peek().equals("(")  ))
 	            {
 					postFix.add(opStack.pop());
 	            }

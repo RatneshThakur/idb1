@@ -79,6 +79,10 @@ public class SelectStatement extends Statement
 		//following code is assumed for only one table name in from.. Later need to expand it to join 
 		relation_reference = schema_manager.getRelation(tableNames.get(0));
 		
+		//test twoPasssort algorithms
+		//twoPassSort(relation_reference);
+		//onePassSort(relation_reference);
+		
 		//was getting everything in once
 		//relation_reference.getBlocks(0,3,relation_reference.getNumOfBlocks());
 	    
@@ -110,41 +114,47 @@ public class SelectStatement extends Statement
 			relation_reference.getBlock(i,3);
 			
 			Block block_reference=mem.getBlock(3);
-			Tuple current = block_reference.getTuple(0);
 			
-			if( current.isNull())
-			{
-				// hole vala tuple
-				continue;
-			}
+			//System.out.println(" No of tuples in this block " + block_reference.getNumTuples());
 			
-			if(testCondition(current,whereCondition) == true)
+			//System.out.println("block dump is " + block_reference);
+			int numOfTuples = block_reference.getNumTuples();
+			for(int k=0; k<numOfTuples; k++)
 			{
-				for(int j=0; j<fieldNames.size(); j++)
+
+				Tuple current = block_reference.getTuple(k);				
+				if(current.isNull() == true)
+					numOfTuples++;				
+				else if(testCondition(current,whereCondition) == true)
 				{
-					if(isPartOfQuery == false)
-						System.out.print("\t" + current.getField(fieldNames.get(j)));
-					else
+					for(int j=0; j<fieldNames.size(); j++)
 					{
-						
-						if(current.getField(fieldNames.get(j)).type == FieldType.INT)
+						if(isPartOfQuery == false)
+							System.out.print("\t" + current.getField(fieldNames.get(j)));
+						else
 						{
-							aListOfValues.add(new Integer( current.getField(fieldNames.get(j)).integer).toString());
-						}
-						else if(current.getField(fieldNames.get(j)).type == FieldType.STR20)
-						{
-							aListOfValues.add(new String( current.getField(fieldNames.get(j)).str));
+							
+							if(current.getField(fieldNames.get(j)).type == FieldType.INT)
+							{
+								aListOfValues.add(new Integer( current.getField(fieldNames.get(j)).integer).toString());
+							}
+							else if(current.getField(fieldNames.get(j)).type == FieldType.STR20)
+							{
+								aListOfValues.add(new String( current.getField(fieldNames.get(j)).str));
+							}
 						}
 					}
+					if( isPartOfQuery == false)
+						System.out.println(" ");
+					else
+					{
+						output.add(aListOfValues);
+						aListOfValues = new ArrayList<String>();
+					}
 				}
-				if( isPartOfQuery == false)
-					System.out.println(" ");
-				else
-				{
-					output.add(aListOfValues);
-					aListOfValues = new ArrayList<String>();
-				}
+				
 			}
+			
 			
 		}
 		
@@ -154,7 +164,33 @@ public class SelectStatement extends Statement
 		}
 		
 		return output;
-	}	
+	}
+	
+	public boolean twoPassSort(Relation relation_reference)
+	{
+		int mainMemorySize = (int)Math.sqrt((double)relation_reference.getNumOfBlocks());
+		for(int i=0; i<relation_reference.getNumOfBlocks(); i++)
+		{
+			for(int j=0; j<mainMemorySize; j++)
+			{
+				relation_reference.getBlock(i+j, 2+j);
+			}
+			System.out.println("Memory right now " + mem);
+		}
+		
+		return true;
+	}
+	
+	public boolean onePassSort(Relation relation_reference)
+	{
+		for(int i=0; i< relation_reference.getNumOfBlocks(); i++)
+		{
+			relation_reference.getBlock(i,2+i);
+		}
+		
+		System.out.println("Memory state during one pass sort " + mem);
+		return true;
+	}
 	
 	
 }

@@ -35,17 +35,18 @@ public class CreateStatement
 		String tableName = stmt.split(" ")[2];
 		getAttributesNameType();
 		
-		System.out.println(" Statement is  " + stmt);
+		//System.out.println(" Statement is  " + stmt);
 		
-		for(int i=0; i<attr_List.size(); i++)
-		{
-			System.out.println(" " + attr_List.get(i) + " " + attr_types.get(i));
-		}
+//		for(int i=0; i<attr_List.size(); i++)
+//		{
+//			System.out.println(" " + attr_List.get(i) + " " + attr_types.get(i));
+//		}
 		Schema schema = new Schema(attr_List,attr_types);
 		
 		String relation_name=tableName;
 	    Relation relation_reference=schema_manager.createRelation(relation_name,schema);		
 		
+	    System.out.println(" " + relation_name + " created successfully ");
 		
 		return relation_reference;
 	}
