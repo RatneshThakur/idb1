@@ -62,7 +62,8 @@ public class DeleteStatement extends Statement
 						if(current.isNull() == false && testCondition(current,whereCondition) == true)
 						{	
 							count++;
-							block_reference.invalidateTuple(j);						    
+							block_reference.invalidateTuple(j);	
+							
 						}
 					}
 					relation_reference.setBlock(i,3);

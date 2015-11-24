@@ -43,6 +43,9 @@ public class SelectStatement extends Statement
 		
 		ArrayList<String> attrList = new ArrayList<String>();
 		
+		ArrayList<String> distinctAttrList = new ArrayList<String>();
+		boolean distinctPresent = false;
+		
 		String whereCondition = "";
 
 		Pattern p = Pattern.compile(Pattern.quote(pattern1) + "(.*?)" + Pattern.quote(pattern2));
@@ -61,10 +64,27 @@ public class SelectStatement extends Statement
 		else
 		{
 			String[] colSplit = columnNames.get(0).split(",");
+			
 			for(int i=0; i< colSplit.length; i++)
 			{
-				colSplit[i] = colSplit[i].substring(colSplit[i].lastIndexOf(".") + 1);				
-				attrList.add(colSplit[i].trim());
+				
+				if( colSplit[i].contains("DISTINCT"))
+				{
+					colSplit[i] = colSplit[i].substring(colSplit[i].lastIndexOf(".") + 1);
+					System.out.println(" distinct column found ");
+					if(colSplit[i].trim().split(" ").length == 2)
+						colSplit[i] = colSplit[i].trim().split(" ")[1];
+					else
+						colSplit[i] = colSplit[i].trim().split(" ")[0];
+					distinctAttrList.add(colSplit[i].trim());
+					attrList.add(colSplit[i].trim());
+					distinctPresent = true;
+				}
+				else{
+					colSplit[i] = colSplit[i].substring(colSplit[i].lastIndexOf(".") + 1);
+					attrList.add(colSplit[i].trim());
+				}
+					
 			}
 		}
 		
@@ -110,6 +130,8 @@ public class SelectStatement extends Statement
 		
 		ArrayList<String> aListOfValues = new ArrayList<String>();
 		
+		ArrayList<Tuple> outputTuplesList = new ArrayList<Tuple>();
+		
 		for(int i=0; i<relation_reference.getNumOfBlocks(); i++)
 		{			
 			relation_reference.getBlock(i,3);
@@ -128,9 +150,10 @@ public class SelectStatement extends Statement
 					numOfTuples++;				
 				else if(testCondition(current,whereCondition) == true)
 				{
+					outputTuplesList.add(current);
 					for(int j=0; j<fieldNames.size(); j++)
 					{
-						if(isPartOfQuery == false)
+						if(isPartOfQuery == false && distinctPresent == false)
 							System.out.print("\t" + current.getField(fieldNames.get(j)));
 						else
 						{
@@ -145,7 +168,7 @@ public class SelectStatement extends Statement
 							}
 						}
 					}
-					if( isPartOfQuery == false)
+					if( isPartOfQuery == false && distinctPresent == false)
 						System.out.println(" ");
 					else
 					{
@@ -164,7 +187,95 @@ public class SelectStatement extends Statement
 			output.add(aListOfValues);
 		}
 		
+		if(distinctPresent == true)
+		{
+			//System.out.println(" distinct attrs " + distinctAttrList);
+			//System.out.println(" fieldNames are " + fieldNames);
+			printDistinctTuples(outputTuplesList, distinctAttrList, fieldNames);
+			//printDistinctRows(output, distinctAttrList);
+		}
+			
+		
 		return output;
+	}
+	
+	private void printDistinctTuples( ArrayList<Tuple> outputTuples, ArrayList<String> distinctAttrs, ArrayList<String> fieldNames)
+	{
+		String[] distinctVals = new String[distinctAttrs.size()];
+		
+		HashSet<String> set = new HashSet<String>();
+		
+		ArrayList<Tuple> result = new ArrayList<Tuple>();
+	
+		for(Tuple current : outputTuples)
+		{			
+			StringBuffer key = new StringBuffer();
+			for(int t=0; t<distinctAttrs.size(); t++)
+			{
+				key.append( current.getField(distinctAttrs.get(t)).toString() + "_" );
+			}
+			
+			if(set.contains(key.toString()))
+			{
+				//it means its a duplicate tuple
+				//do nothing
+			}
+			else
+			{
+				result.add(current);
+				set.add(new String(key));
+			}
+		}
+		
+		for(int i=0; i<result.size(); i++)
+		{
+			for( int j=0; j<fieldNames.size(); j++)
+			{
+				System.out.print("\t" + result.get(i).getField(fieldNames.get(j)) + "");
+			}
+			System.out.println("  ");
+		}
+	}
+	
+	private boolean printDistinctRows(ArrayList<ArrayList<String>> output, ArrayList<String> distinctAttr)
+	{
+		for(int i=0; i<output.size(); i++)
+		{
+			ArrayList<String> current = output.get(i);
+			String[] distinctVal = new String[distinctAttr.size()];
+			for( int t =0; t < distinctVal.length; t++)
+			{
+				distinctVal[t] = current.get(t);
+			}
+			
+			for( int j = 0; j<output.size(); j++)
+			{
+				if( j == i)
+					continue;
+				//System.out.println( "   tuple is  " + );
+				boolean isDiff = false;
+				for( int tj = 0; tj<distinctVal.length; tj++)
+				{
+					if(!distinctVal[tj].equals(output.get(j).get(tj)))
+						isDiff = true;
+				}
+				if(isDiff == false)
+				{
+					output.remove(j);
+				}
+			}
+		}
+		
+		for( int i=0; i<output.size(); i++)
+		{
+			ArrayList<String> current = output.get(i);
+			for( int j =0; j<current.size(); j++)
+			{
+				System.out.print(" \t " + current.get(j));
+			}
+			System.out.println(" ");
+		}
+		return true;
 	}
 	
 	public boolean twoPassSort(Relation relation_reference)
