@@ -39,6 +39,13 @@ public class Parser {
 		for(int i=0; i<fileData.size(); i++)
 		{			
 			st = new Statement(fileData.get(i), mem,disk, schema_manager);
+//			try{
+//				st.analyzeStatement();
+//			}
+//			catch(Exception ex)
+//			{
+//				System.out.println(" Some error occured -- We are looking into it");
+//			}			
 			st.analyzeStatement();
 		}		
 	}

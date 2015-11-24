@@ -40,11 +40,16 @@ public class SelectStatement extends Statement
 		
 		ArrayList<String> columnNames = new ArrayList<String>();
 		ArrayList<String> tableNames = new ArrayList<String>();
+		ArrayList<String> orderByList = new ArrayList<String>();
 		
 		ArrayList<String> attrList = new ArrayList<String>();
 		
 		ArrayList<String> distinctAttrList = new ArrayList<String>();
 		boolean distinctPresent = false;
+		boolean isOrderByPresent = false;
+		
+		if(stmt.contains("ORDER BY"))
+			isOrderByPresent = true;
 		
 		String whereCondition = "";
 
@@ -93,7 +98,7 @@ public class SelectStatement extends Statement
 		pattern1 = "FROM";
 		pattern2 = "WHERE";
 		
-		whereCondition = getTableNames(tableNames,pattern1,pattern2);
+		whereCondition = getTableNames(tableNames,pattern1,pattern2, orderByList);
 				
 		//parsing logic ends here
 		
@@ -116,13 +121,14 @@ public class SelectStatement extends Statement
 		
 		if( isPartOfQuery == false)
 		{
+			System.out.print("\t");
 			for( int i=0; i<fieldNames.size(); i++)
 			{
 				System.out.print(fieldNames.get(i));
 				System.out.print("   |  ");
 			}
 			System.out.println(" ");
-			System.out.println("----------------------------------------------------");
+			System.out.println("-----------------------------------------------------------------------");
 		}
 		
 		
@@ -153,7 +159,7 @@ public class SelectStatement extends Statement
 					outputTuplesList.add(current);
 					for(int j=0; j<fieldNames.size(); j++)
 					{
-						if(isPartOfQuery == false && distinctPresent == false)
+						if(isPartOfQuery == false && distinctPresent == false && isOrderByPresent == false)
 							System.out.print("\t" + current.getField(fieldNames.get(j)));
 						else
 						{
@@ -168,7 +174,7 @@ public class SelectStatement extends Statement
 							}
 						}
 					}
-					if( isPartOfQuery == false && distinctPresent == false)
+					if( isPartOfQuery == false && distinctPresent == false && isOrderByPresent == false)
 						System.out.println(" ");
 					else
 					{
@@ -194,9 +200,33 @@ public class SelectStatement extends Statement
 			printDistinctTuples(outputTuplesList, distinctAttrList, fieldNames);
 			//printDistinctRows(output, distinctAttrList);
 		}
-			
+		if(isOrderByPresent == true)
+		{
+			sortTuplesByColumn(outputTuplesList,orderByList);
+		}
+		
+		printTuples(outputTuplesList, fieldNames);
 		
 		return output;
+	}
+	
+	private void printTuples(ArrayList<Tuple> result, ArrayList<String> fieldNames)
+	{
+		for(int i=0; i<result.size(); i++)
+		{
+			for( int j=0; j<fieldNames.size(); j++)
+			{
+				System.out.print("\t" + result.get(i).getField(fieldNames.get(j)) + "");
+			}
+			System.out.println("  ");
+		}
+	}
+	
+	private void sortTuplesByColumn(ArrayList<Tuple> outputTuples, ArrayList<String> orderByList)
+	{
+		String field = orderByList.get(0);
+		field = field.substring(field.lastIndexOf(".") + 1);
+		Collections.sort(outputTuples, new MyComparator(field));
 	}
 	
 	private void printDistinctTuples( ArrayList<Tuple> outputTuples, ArrayList<String> distinctAttrs, ArrayList<String> fieldNames)
@@ -227,14 +257,15 @@ public class SelectStatement extends Statement
 			}
 		}
 		
-		for(int i=0; i<result.size(); i++)
-		{
-			for( int j=0; j<fieldNames.size(); j++)
-			{
-				System.out.print("\t" + result.get(i).getField(fieldNames.get(j)) + "");
-			}
-			System.out.println("  ");
-		}
+		outputTuples = result;
+//		for(int i=0; i<result.size(); i++)
+//		{
+//			for( int j=0; j<fieldNames.size(); j++)
+//			{
+//				System.out.print("\t" + result.get(i).getField(fieldNames.get(j)) + "");
+//			}
+//			System.out.println("  ");
+//		}
 	}
 	
 	private boolean printDistinctRows(ArrayList<ArrayList<String>> output, ArrayList<String> distinctAttr)

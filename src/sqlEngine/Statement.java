@@ -1,6 +1,7 @@
 package sqlEngine;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Stack;
 import java.util.regex.Matcher;
@@ -62,15 +63,18 @@ class Statement
 		
 	}
 	
-	public String getTableNames(ArrayList<String> tableNames,String pattern1, String pattern2)
+	public String getTableNames(ArrayList<String> tableNames,String pattern1, String pattern2,ArrayList<String> orderByList)
 	{
 		
 		// for statements like select something/* from table name where somecondition
+		
 		Matcher m = null;
 		Pattern p = null;
 		String whereCondition = "";
 		if(stmt.contains("WHERE"))
 		{
+			//pattern1 = FROM
+			//pattern2 = WHERE
 			p = Pattern.compile(Pattern.quote(pattern1) + "(.*?)" + Pattern.quote(pattern2));
 			m = p.matcher(stmt);
 			String allTables = "";
@@ -86,27 +90,99 @@ class Statement
 			}
 			
 			//now getting the condition from where clause
-			p = Pattern.compile(Pattern.quote(pattern2) + "(.*)");
-			m = p.matcher(stmt);			
-			if ( m.find() ) {
+			
+			if(stmt.contains("ORDER BY"))
+			{
+				//pattern1 = "WHERE";
+				pattern2 = "ORDER BY";				
 				
-				whereCondition = m.group(1);
-			}			
-		}
+				p = Pattern.compile(Pattern.quote(pattern2) + "(.*)");
+				m = p.matcher(stmt);
+				String orderByCols = "";
+				if ( m.find() ) {
+					orderByCols = m.group(1);
+				}
+				String[] orderByColsSplit = orderByCols.split(",");
+				for(int i=0; i<orderByColsSplit.length; i++)
+				{
+					orderByList.add(orderByColsSplit[i].trim());
+				}
+				
+				//getting where clause
+				pattern1 = "WHERE";
+				pattern2 = "ORDER BY";
+				p = Pattern.compile(Pattern.quote(pattern1) + "(.*?)" + Pattern.quote(pattern2));
+				m = p.matcher(stmt);				
+				while(m.find())
+				{
+					whereCondition = m.group(1);;				
+				}
+				
+			}
+			else{
+				// no order by clause
+				p = Pattern.compile(Pattern.quote(pattern2) + "(.*)");
+				m = p.matcher(stmt);			
+				if ( m.find() ) {
+					
+					whereCondition = m.group(1);
+				}	
+			}
+			
+			for(String s : orderByList)
+				System.out.println(" order by column " + s);
+					
+		} // end of where if
 		else
 		{
 			//this is for statements like select something/*  from tablename ... no condition   "sentence(.*)"
-			p = Pattern.compile(Pattern.quote(pattern1) + "(.*)");
-			m = p.matcher(stmt);
-			String allTables = "";
-			if ( m.find() ) {
-			   allTables = m.group(1);
-			}
-			String[] allTablesSplit = allTables.split(",");
-			for(int i=0; i<allTablesSplit.length; i++)
+			// will check for order by here
+			
+			if(stmt.contains("ORDER BY"))
 			{
-				tableNames.add(allTablesSplit[i].trim());
-			}			
+				pattern1 = "FROM";
+				pattern2 = "ORDER BY";
+				p = Pattern.compile(Pattern.quote(pattern1) + "(.*?)" + Pattern.quote(pattern2));
+				m = p.matcher(stmt);
+				String allTables = "";
+				if ( m.find() ) {
+				   allTables = m.group(1);
+				}
+				String[] allTablesSplit = allTables.split(",");
+				for(int i=0; i<allTablesSplit.length; i++)
+				{
+					tableNames.add(allTablesSplit[i].trim());
+				}
+				
+				System.out.println(" order by certain column is needed ");
+				
+				p = Pattern.compile(Pattern.quote(pattern2) + "(.*)");
+				m = p.matcher(stmt);
+				String orderByCols = "";
+				if ( m.find() ) {
+					orderByCols = m.group(1);
+				}
+				String[] orderByColsSplit = orderByCols.split(",");
+				for(int i=0; i<orderByColsSplit.length; i++)
+				{
+					orderByList.add(orderByColsSplit[i].trim());
+				}				
+				
+			}
+			else{
+				p = Pattern.compile(Pattern.quote(pattern1) + "(.*)");
+				m = p.matcher(stmt);
+				String allTables = "";
+				if ( m.find() ) {
+				   allTables = m.group(1);
+				}
+				String[] allTablesSplit = allTables.split(",");
+				for(int i=0; i<allTablesSplit.length; i++)
+				{
+					tableNames.add(allTablesSplit[i].trim());
+				}
+			}
+						
 		}
 		return whereCondition;
 	}
@@ -408,8 +484,35 @@ class Statement
 	
 		return postFix;
 	}
-	
-	
-	
-	
+}
+
+class MyComparator implements Comparator<Tuple>
+{
+	private String field;
+	MyComparator(String field_var)
+	{
+		field = field_var;
+	}
+	public int compare(Tuple t1, Tuple t2)
+	{
+		int val1;
+		int val2;
+		String stringVal1;
+		String stringVal2;
+		//int fields
+		if(t1.getField(field).type == FieldType.INT)
+		{
+			val1 = t1.getField(field).integer;
+			val2 = t2.getField(field).integer;
+			return Integer.compare(val1, val2);
+		}
+		if(t1.getField(field).type == FieldType.STR20)
+		{
+			stringVal1 = t1.getField(field).str;
+			stringVal2 = t2.getField(field).str;
+			return stringVal1.compareTo(stringVal2);
+		}
+		//will never reach here
+		return -1;
+	}
 }

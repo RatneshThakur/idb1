@@ -34,9 +34,12 @@ public class DeleteStatement extends Statement
 				String pattern1 = "FROM";
 				String pattern2 = "WHERE";
 				ArrayList<String> tableNames = new ArrayList<String>();
-
 				
-				String whereCondition = getTableNames(tableNames,pattern1,pattern2);
+				ArrayList<String> orderByList = new ArrayList<String>();
+				//here there is no use of orderbylist variable. but since we need the variable in function defition
+				//that is why i am passing the variable
+				
+				String whereCondition = getTableNames(tableNames,pattern1,pattern2,orderByList);
 						
 				//parsing logic ends here
 				
