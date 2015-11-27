@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import storageManager.Disk;
 import storageManager.FieldType;
 import storageManager.MainMemory;
+import storageManager.Relation;
 import storageManager.SchemaManager;
 import storageManager.Tuple;
 
@@ -153,8 +154,6 @@ class Statement
 				{
 					tableNames.add(allTablesSplit[i].trim());
 				}
-				
-				System.out.println(" order by certain column is needed ");
 				
 				p = Pattern.compile(Pattern.quote(pattern2) + "(.*)");
 				m = p.matcher(stmt);
@@ -313,9 +312,11 @@ class Statement
 		String stringValue2 = "";
 		
 		boolean stringCompare = false;
+		if(current.getSchema().fieldNameExists(field1) == false)
+			field1 = field1.substring(field1.lastIndexOf(".") + 1);
+		if(current.getSchema().fieldNameExists(field2) == false)
+			field2 = field2.substring(field2.lastIndexOf(".") + 1);
 		
-		field2 = field2.substring(field2.lastIndexOf(".") + 1);
-		field1 = field1.substring(field1.lastIndexOf(".") + 1);
 		
 		if(current.getSchema().fieldNameExists(field1))
 		{
@@ -418,8 +419,69 @@ class Statement
 			output.push(new Integer(value1).toString());
 	}
 	
+	public void printTuples(ArrayList<Tuple> result, ArrayList<String> fieldNames)
+	{
+		
+		for(int i=0; i<result.size(); i++)
+		{
+			for( int j=0; j<fieldNames.size(); j++)
+			{
+				System.out.print("\t" + result.get(i).getField(fieldNames.get(j)) + "");
+			}
+			System.out.println("  ");
+		}
+	}
+	
+	public boolean onePassSort(Relation relation_reference)
+	{
+		for(int i=0; i< relation_reference.getNumOfBlocks(); i++)
+		{
+			relation_reference.getBlock(i,2+i);
+		}
+		
+		System.out.println("Memory state during one pass sort " + mem);
+		return true;
+	}
+	
+	public boolean twoPassSort(Relation relation_reference)
+	{
+		int mainMemorySize = (int)Math.sqrt((double)relation_reference.getNumOfBlocks());
+		for(int i=0; i<relation_reference.getNumOfBlocks(); i++)
+		{
+			for(int j=0; j<mainMemorySize; j++)
+			{
+				relation_reference.getBlock(i+j, 2+j);
+			}
+			System.out.println("Memory right now " + mem);
+		}
+		
+		return true;
+	}
+	
+	public void printOneTuple(Tuple tuple, String whereCondition, ArrayList<String> projectionAttrs)
+	{
+		
+		if( testCondition(tuple,whereCondition) == false)
+			return;
+		for(int i=0; i<projectionAttrs.size(); i++)
+		{
+			System.out.print("\t" + tuple.getField(projectionAttrs.get(i)));
+		}
+		System.out.println("  ");
+//		for( int i=0; i<tuple.getNumOfFields(); i++)
+//		{
+//			for(int f=0; f<projectionAttrs.size(); f++)
+//				System.out.print(" \t " + tuple.getField(projectionAttrs.get(f)).toString());
+//		}
+		
+		System.out.println("    ");
+	}
+	
+	
 	public ArrayList<String> createPostFix(String whereClause)
 	{
+		whereClause = whereClause.replace('(','[');
+		whereClause = whereClause.replace(')',']');
 		String[] tokens = whereClause.split(" ");
 		Stack<String> opStack = new Stack<String>();
 		

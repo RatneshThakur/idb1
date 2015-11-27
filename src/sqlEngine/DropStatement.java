@@ -17,13 +17,9 @@ class DropStatement extends Statement
 	public boolean runStatement()
 	{
 		relation_name = stmt.split(" ")[2];
-		System.out.println("Schema manager before deletion " + schema_manager);
 		
 		if(relation_name != null)
-			schema_manager.deleteRelation(relation_name);
-		
-		System.out.println(" Successfull drop of the table ");
-		System.out.println("Schema manager after deletion " + schema_manager);
+			schema_manager.deleteRelation(relation_name);	
 		
 
 		return true;
