@@ -30,6 +30,11 @@ public class InsertStatement extends Statement
 		String[] attrValues = null; // this will hold attribute values;
 		relation_name = stmt.split(" ")[2];
 		relation_reference = schema_manager.getRelation(relation_name);
+		if(relation_reference == null)
+		{
+			System.out.println(relation_name + " does not exist.");
+			return true;
+		}
 		// INSERT INTO course (sid, homework, project, exam, grade) VALUES (1, 99, 100, 100, "A")
 		
 		//parsing logic starts
@@ -57,7 +62,7 @@ public class InsertStatement extends Statement
 				     .matcher(stmt);
 				 while (m.find()) {
 				   String matchedPart = m.group();
-				   System.out.println(" select statement is " + matchedPart);				   
+				   //System.out.println(" select statement is " + matchedPart);				   
 				   
 				   SelectStatement selectStmt = new SelectStatement(stmt,mem,disk,schema_manager);
 				   valuesList = selectStmt.runStatement(true);
@@ -86,12 +91,12 @@ public class InsertStatement extends Statement
 		 
 		 
 		//parsing logic ends 
-		
+		int count = 0;
 		//now attributes names and values have been collected.Lets create a tuple
 		for( int j = 0; j< valuesList.size(); j++)
 		{
 			Tuple tuple = relation_reference.createTuple();
-			
+			count++;
 			attrValues = new String[valuesList.get(j).size()];
 			attrValues = valuesList.get(j).toArray(attrValues);
 			for(int i=0; i<attrNames.length; i++)
@@ -115,7 +120,10 @@ public class InsertStatement extends Statement
 		    Parser.appendTupleToRelation(relation_reference, mem, 9, tuple);
 		}
 			    
-	   
+	   if(count > 1)
+		   System.out.println(count+" rows inserted successfully.");
+	   else
+		   System.out.println(count+" row inserted successfully.");
 		return true;
 	}
 }

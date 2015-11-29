@@ -19,7 +19,12 @@ class DropStatement extends Statement
 		relation_name = stmt.split(" ")[2];
 		
 		if(relation_name != null)
-			schema_manager.deleteRelation(relation_name);	
+		{
+			if(schema_manager.deleteRelation(relation_name) == true);
+				System.out.println("Relation '" + relation_name + "' deleted successfully.");
+		}
+			
+		
 		
 
 		return true;

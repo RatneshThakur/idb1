@@ -17,3 +17,19 @@ SELECT * FROM course WHERE homework = 100 AND project = 98
 SELECT * FROM course WHERE project = 98 OR project = 99
 SELECT * FROM course WHERE grade = "A"
 SELECT * FROM course WHERE NOT [ grade = "A" ]
+CREATE TABLE course (sid INT, homework INT, project INT, exam INT, grade STR20)
+INSERT INTO course (sid, homework, project, exam, grade) VALUES (1, 99, 100, 100, "A")
+INSERT INTO course (sid, homework, project, exam, grade) VALUES (1, 99, 100, 100, "B")
+INSERT INTO course (sid, homework, project, exam, grade) SELECT * FROM course WHERE grade = "A"
+SELECT * FROM course WHERE grade = "A"
+SELECT sid, homework, project, exam, DISTINCT grade FROM course
+SELECT * FROM course ORDER BY grade
+DELETE FROM course
+INSERT INTO course (sid, homework, project, exam, grade) VALUES (1, 99, 100, 100, "A")
+INSERT INTO course (sid, homework, project, exam, grade) VALUES (1, 99, 100, 100, "B")
+INSERT INTO course (sid, homework, project, exam, grade) SELECT * FROM course WHERE grade = "A"
+DELETE FROM course WHERE grade = "B"
+DROP TABLE course
+DROP TABLE course2
+INSERT INTO course2 (sid, homework, project, exam, grade) VALUES (1, 99, 100, 100, "A")
+SELECT * FROM course2

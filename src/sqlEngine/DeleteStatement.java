@@ -72,7 +72,10 @@ public class DeleteStatement extends Statement
 					relation_reference.setBlock(i,3);
 				}
 				
-				System.out.println(" " + count + " records/tuples deleted successfully ");
+				if(count > 1)
+					System.out.println(+ count + " records/tuples deleted successfully. ");
+				else
+					System.out.println(+ count + " record/tuple deleted successfully. ");
 				//System.out.print("Relation state after deletion: " + "\n");
 			    //System.out.print(relation_reference + "\n");
 		

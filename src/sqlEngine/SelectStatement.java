@@ -119,6 +119,11 @@ public class SelectStatement extends Statement
 		//following code is assumed for only one table name in from.. Later need to expand it to join 
 		relation_reference = schema_manager.getRelation(tableNames.get(0));
 		
+		if(relation_reference == null)
+		{
+			System.out.println(tableNames.get(0) + " does not exist.");
+			return new ArrayList<ArrayList<String>>();
+		}
 		//test twoPasssort algorithms
 		//twoPassSort(relation_reference);
 		//onePassSort(relation_reference);
@@ -660,6 +665,19 @@ public class SelectStatement extends Statement
 		
 		schema_manager.deleteRelation("temporaryR");
 		
+	}
+	
+	public void joinTables(Stack<String> tableNames, String whereCondition)
+	{
+		if(tableNames.size() == 2)
+		{
+			String table1 = tableNames.pop();
+			String table2 = tableNames.pop();
+			
+			//performJoinMajeMein(table1, table2, );
+		}
+		else
+			joinTables(tableNames, whereCondition);
 	}
 	
 	

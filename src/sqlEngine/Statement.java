@@ -33,7 +33,7 @@ class Statement
 	public void analyzeStatement()
 	{
 		String[] stmtSplit = stmt.split(" ");
-		System.out.println(" The statment is : " + stmt);
+		System.out.println("The statment is : " + stmt);
 		// will optimize it later -- Need to remove split 
 	
 		if(stmtSplit[0].equals("CREATE")){
