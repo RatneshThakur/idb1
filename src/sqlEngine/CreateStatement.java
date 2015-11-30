@@ -47,6 +47,7 @@ public class CreateStatement
 	    Relation relation_reference=schema_manager.createRelation(relation_name,schema);		
 		
 	    System.out.println("Relation '" + relation_name + "' created successfully. ");
+	    System.out.println("No of disk I/Os used for this operation "+ disk.getDiskIOs());
 		
 		return relation_reference;
 	}

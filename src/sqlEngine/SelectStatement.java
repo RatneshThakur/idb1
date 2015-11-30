@@ -32,23 +32,23 @@ public class SelectStatement extends Statement
 		super(stmt_var,mem_var,disk_var,schema_manager_var);
 	}
 	
-	public ArrayList<ArrayList<String>> runStatement(boolean isPartOfQuery)
+	public ArrayList<Tuple> runStatement(boolean isPartOfQuery)
 	{
 		//parsing logic starts here
-		String pattern1 = "SELECT";
-		
+		String pattern1 = "SELECT";		
 		String pattern2 = "FROM";
 		
 		ArrayList<String> columnNames = new ArrayList<String>();
 		ArrayList<String> tableNames = new ArrayList<String>();
 		ArrayList<String> orderByList = new ArrayList<String>();
 		
-		ArrayList<String> attrList = new ArrayList<String>();
-		
+		ArrayList<String> attrList = new ArrayList<String>();		
 		ArrayList<String> distinctAttrList = new ArrayList<String>();
+		
 		boolean distinctPresent = false;
 		boolean isOrderByPresent = false;
 		boolean isPerformJoin = false;
+		boolean isPrintAllColumns = false;
 		
 		if(stmt.contains("ORDER BY"))
 			isOrderByPresent = true;
@@ -62,11 +62,14 @@ public class SelectStatement extends Statement
 			columnNames.add(col);		  
 		}
 		
-		boolean isPrintAllColumns = false;
 		
-		if(columnNames.size() == 1 && columnNames.get(0).trim().equals("*"))
+		if(columnNames.size() == 1 && columnNames.get(0).trim().contains("*"))
 		{			
 			isPrintAllColumns = true;
+			if(columnNames.get(0).trim().contains("DISTINCT"))
+			{				
+				distinctPresent = true;
+			}
 		}
 		else
 		{
@@ -95,6 +98,8 @@ public class SelectStatement extends Statement
 			}
 		}
 		
+		//attrList contains all the attributes which will be used for projection.
+		//distinctAttrList contains all the attributes which will be used for distinctiness.
 		
 		//getting all table names now
 		pattern1 = "FROM";
@@ -105,13 +110,18 @@ public class SelectStatement extends Statement
 		//2. Order by list of attributes
 		
 		whereCondition = getTableNames(tableNames,pattern1,pattern2, orderByList);
+		ArrayList<Tuple> outputTuplesList = new ArrayList<Tuple>();
+		
+		ArrayList<String> fieldNames = new ArrayList<String>();
+		
+		fieldNames = attrList;
 		
 		if(tableNames.size() > 1)
 		{			
 			isPerformJoin = true;
-			performJoinaAndOutput(tableNames,whereCondition);
-			//performTwoPassJoin(tableNames, whereCondition, isOrderByPresent);
-			return new ArrayList<ArrayList<String>>();
+			fieldNames = getProjectionAttributes(true, tableNames);
+			outputTuplesList = performJoinaAndOutput(tableNames,whereCondition, fieldNames);			
+			//return outputTuplesList;
 		}
 				
 		//parsing logic ends here
@@ -122,7 +132,7 @@ public class SelectStatement extends Statement
 		if(relation_reference == null)
 		{
 			System.out.println(tableNames.get(0) + " does not exist.");
-			return new ArrayList<ArrayList<String>>();
+			return new ArrayList<Tuple>();
 		}
 		//test twoPasssort algorithms
 		//twoPassSort(relation_reference);
@@ -131,117 +141,70 @@ public class SelectStatement extends Statement
 		//was getting everything in once
 		//relation_reference.getBlocks(0,3,relation_reference.getNumOfBlocks());
 	    
+	
 		
-		ArrayList<String> fieldNames = new ArrayList<String>();
-		if(isPrintAllColumns == true)
-		 fieldNames = relation_reference.getSchema().getFieldNames();
-		else
-		  fieldNames = attrList;
 		
-		if( isPartOfQuery == false)
+		if(isPerformJoin == false)
 		{
-			System.out.print("\t");
-			for( int i=0; i<fieldNames.size(); i++)
-			{
-				System.out.print(fieldNames.get(i));
-				System.out.print("   |  ");
-			}
-			System.out.println(" ");
-			System.out.println("-----------------------------------------------------------------------");
-		}
-		
-		
-		ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
-		
-		ArrayList<String> aListOfValues = new ArrayList<String>();
-		
-		ArrayList<Tuple> outputTuplesList = new ArrayList<Tuple>();
-		
-		for(int i=0; i<relation_reference.getNumOfBlocks(); i++)
-		{			
-			relation_reference.getBlock(i,3);
-			
-			Block block_reference=mem.getBlock(3);
-			
-			//System.out.println(" No of tuples in this block " + block_reference.getNumTuples());
-			
-			//System.out.println("block dump is " + block_reference);
-			int numOfTuples = block_reference.getNumTuples();
-			for(int k=0; k<numOfTuples; k++)
-			{
-
-				Tuple current = block_reference.getTuple(k);				
-				if(current.isNull() == true)
-					numOfTuples++;				
-				else if(testCondition(current,whereCondition) == true)
-				{
-					outputTuplesList.add(current);
-					for(int j=0; j<fieldNames.size(); j++)
-					{
-						if(isPartOfQuery == false && distinctPresent == false && isOrderByPresent == false)
-							System.out.print("\t" + current.getField(fieldNames.get(j)));
-						else
-						{
-							
-							if(current.getField(fieldNames.get(j)).type == FieldType.INT)
-							{
-								aListOfValues.add(new Integer( current.getField(fieldNames.get(j)).integer).toString());
-							}
-							else if(current.getField(fieldNames.get(j)).type == FieldType.STR20)
-							{
-								aListOfValues.add(new String( current.getField(fieldNames.get(j)).str));
-							}
-						}
-					}
-					if( isPartOfQuery == false && distinctPresent == false && isOrderByPresent == false)
-						System.out.println(" ");
-					else
-					{
-						output.add(aListOfValues);
-						aListOfValues = new ArrayList<String>();
-					}
-				}
+			if(isPrintAllColumns == true)
+				 fieldNames = relation_reference.getSchema().getFieldNames();
+			for(int i=0; i<relation_reference.getNumOfBlocks(); i++)
+			{			
+				relation_reference.getBlock(i,3);
 				
+				Block block_reference=mem.getBlock(3);
+				
+				int numOfTuples = block_reference.getNumTuples();
+				for(int k=0; k<numOfTuples; k++)
+				{
+					Tuple current = block_reference.getTuple(k);				
+					if(current.isNull() == true)
+						numOfTuples++;				
+					else if(testCondition(current,whereCondition) == true)
+					{
+						outputTuplesList.add(current);					
+					}				
+				}
 			}
-			
-			
 		}
 		
-		if(aListOfValues.size() > 0)
-		{
-			output.add(aListOfValues);
-		}
+		
 		
 		if(distinctPresent == true)
 		{
-			//System.out.println(" distinct attrs " + distinctAttrList);
-			//System.out.println(" fieldNames are " + fieldNames);
 			if(isPrintAllColumns == true )
-				distinctAttrList = fieldNames;
-			outputTuplesList = printDistinctTuples(outputTuplesList, distinctAttrList, fieldNames);
-			//printDistinctRows(output, distinctAttrList);
+				distinctAttrList = fieldNames;			
+			outputTuplesList = duplicateElimination(outputTuplesList, distinctAttrList, fieldNames);			
 		}
 		if(isOrderByPresent == true)
 		{
-			sortTuplesByColumn(outputTuplesList,orderByList);
+			
+			sortTuplesByColumn(outputTuplesList,orderByList,isPerformJoin);
+		}		
+		
+		if( isPartOfQuery == false)
+		{
+			projectionTuples(outputTuplesList, fieldNames);
+			System.out.println("Number of disk I/Os for this operation are " + disk.getDiskIOs());
 		}
+			
 		
-		if( isOrderByPresent == true || distinctPresent == true)
-			printTuples(outputTuplesList, fieldNames);
-		
-		return output;
+		return outputTuplesList;
 	}
 	
 	
 	
-	private void sortTuplesByColumn(ArrayList<Tuple> outputTuples, ArrayList<String> orderByList)
+	private void sortTuplesByColumn(ArrayList<Tuple> outputTuples, ArrayList<String> orderByList, boolean isJoin)
 	{
 		String field = orderByList.get(0);
-		field = field.substring(field.lastIndexOf(".") + 1);
+		if(isJoin == false)
+			field = field.substring(field.lastIndexOf(".") + 1);
+		ArrayList<String> temp = outputTuples.get(0).getSchema().getFieldNames();
+		Tuple t = outputTuples.get(0);		
 		Collections.sort(outputTuples, new MyComparator(field));
 	}
 	
-	private ArrayList<Tuple> printDistinctTuples( ArrayList<Tuple> outputTuples, ArrayList<String> distinctAttrs, ArrayList<String> fieldNames)
+	private ArrayList<Tuple> duplicateElimination( ArrayList<Tuple> outputTuples, ArrayList<String> distinctAttrs, ArrayList<String> fieldNames)
 	{
 		String[] distinctVals = new String[distinctAttrs.size()];
 		
@@ -270,80 +233,28 @@ public class SelectStatement extends Statement
 		}
 		
 		outputTuples = result;
-//		for(int i=0; i<result.size(); i++)
-//		{
-//			for( int j=0; j<fieldNames.size(); j++)
-//			{
-//				System.out.print("\t" + result.get(i).getField(fieldNames.get(j)) + "");
-//			}
-//			System.out.println("  ");
-//		}
 		
 		return result;
 	}
 	
-	private boolean printDistinctRows(ArrayList<ArrayList<String>> output, ArrayList<String> distinctAttr)
+	public ArrayList<Tuple> performJoinaAndOutput(ArrayList<String> tableNames, String whereCondition, ArrayList<String> projectionAttrs)
 	{
-		for(int i=0; i<output.size(); i++)
-		{
-			ArrayList<String> current = output.get(i);
-			String[] distinctVal = new String[distinctAttr.size()];
-			for( int t =0; t < distinctVal.length; t++)
-			{
-				distinctVal[t] = current.get(t);
-			}
-			
-			for( int j = 0; j<output.size(); j++)
-			{
-				if( j == i)
-					continue;
-				//System.out.println( "   tuple is  " + );
-				boolean isDiff = false;
-				for( int tj = 0; tj<distinctVal.length; tj++)
-				{
-					if(!distinctVal[tj].equals(output.get(j).get(tj)))
-						isDiff = true;
-				}
-				if(isDiff == false)
-				{
-					output.remove(j);
-				}
-			}
-		}
-		
-		for( int i=0; i<output.size(); i++)
-		{
-			ArrayList<String> current = output.get(i);
-			for( int j =0; j<current.size(); j++)
-			{
-				System.out.print(" \t " + current.get(j));
-			}
-			System.out.println(" ");
-		}
-		return true;
-	}
-	
-	public void performJoinaAndOutput(ArrayList<String> tableNames, String whereCondition)
-	{
-		ArrayList<String> projectionAttrs = getProjectionAttributes(true, tableNames);		
+		//ArrayList<String> projectionAttrs = getProjectionAttributes(true, tableNames);
+		ArrayList<Tuple> outputTuples = new ArrayList<Tuple>();
 		
 		System.out.println(" This is one pass algorithm ");
 		
-		
-		
-		System.out.println("---------------------------------------------------------------------------------------------------------");
-		for(int i=0; i<projectionAttrs.size(); i++)
+		System.out.print("\t");
+		for( int i=0; i<projectionAttrs.size(); i++)
 		{
-			System.out.print("\t"+projectionAttrs.get(i)+"|");
+			System.out.print(projectionAttrs.get(i));
+			System.out.print("   |  ");
 		}
 		System.out.println(" ");
 		
-//		if(true)
-//		{
-//			//System.out.println(" performing two pass algorithm ");
-//			performTwoPassJoin(tableNames,whereCondition,false);
-//			return;
-//		}
+		System.out.println("---------------------------------------------------------------------------------------------------------------");
+		
+		
 			
 		
 		int freeMemoryBlocks = 8;
@@ -358,13 +269,13 @@ public class SelectStatement extends Statement
 		Relation smallR = null;
 		Relation bigR = null;
 		
-		System.out.println(" No of blocks are " + relationList.get(0).getNumOfBlocks() + " " +relationList.get(1).getNumOfBlocks());
+		
 		
 		if((relationList.get(0).getNumOfBlocks() > 8) && (relationList.get(1).getNumOfBlocks() > 8))
 		{
 			System.out.println(" This requires a two pass algorithm ");
 			performTwoPassJoin(tableNames,whereCondition,false);
-			return;
+			return new ArrayList<Tuple>();
 		}
 				
 		
@@ -425,6 +336,8 @@ public class SelectStatement extends Statement
 		Schema tempSchema = new Schema(tempRfieldNames,tempFieldTypes);
 		Relation tempRelation = null;
 		
+		if(schema_manager.relationExists("temporaryR") == true)
+			schema_manager.deleteRelation("temporaryR");
 		tempRelation = schema_manager.createRelation("temporaryR",tempSchema);
 			
 		
@@ -472,14 +385,17 @@ public class SelectStatement extends Statement
 								tempTuple.setField(bigRName+"."+fieldName,bigTuple.getField(fieldName).integer);
 							}
 						}
-					
-						printOneTuple(tempTuple,whereCondition, projectionAttrs);
+						
+						Tuple current = printOneTuple(tempTuple,whereCondition, projectionAttrs);
+						if(current != null)
+							outputTuples.add(current);
 					}
 				}
 				
 			}
 		}
-		schema_manager.deleteRelation("temporaryR");	
+		//schema_manager.deleteRelation("temporaryR");	
+		return outputTuples;
 	}
 	
 	public ArrayList<String> getProjectionAttributes(boolean isJoin, ArrayList<String> tableNames)
@@ -540,11 +456,12 @@ public class SelectStatement extends Statement
 	}
 	
 
-	public void performTwoPassJoin(ArrayList<String> tableNames, String whereCondition, boolean isOrderByPresent)
+	public ArrayList<Tuple> performTwoPassJoin(ArrayList<String> tableNames, String whereCondition, boolean isOrderByPresent)
 	{
 		System.out.println(" Inside two pass algorithm ");
 		
 		ArrayList<String> projectionAttrs = getProjectionAttributes(true,tableNames);
+		ArrayList<Tuple> outputTuples = new ArrayList<Tuple>();
 		
 		System.out.println(" Will be project these columns ");
 		
@@ -664,6 +581,7 @@ public class SelectStatement extends Statement
 		
 		
 		schema_manager.deleteRelation("temporaryR");
+		return outputTuples;
 		
 	}
 	

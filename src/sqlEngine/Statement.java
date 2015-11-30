@@ -33,10 +33,10 @@ class Statement
 	public void analyzeStatement()
 	{
 		String[] stmtSplit = stmt.split(" ");
-		System.out.println("The statment is : " + stmt);
+		System.out.println("\nThe statment is : " + stmt);
 		// will optimize it later -- Need to remove split 
-	
-		if(stmtSplit[0].equals("CREATE")){
+		disk.resetDiskIOs();
+		if(stmtSplit[0].equals("CREATE")){			
 			CreateStatement cs = new CreateStatement(stmt,mem,disk,schema_manager);
 			cs.runStatement();
 		}
@@ -419,8 +419,16 @@ class Statement
 			output.push(new Integer(value1).toString());
 	}
 	
-	public void printTuples(ArrayList<Tuple> result, ArrayList<String> fieldNames)
+	public void projectionTuples(ArrayList<Tuple> result, ArrayList<String> fieldNames)
 	{
+		System.out.print("\t");
+		for( int i=0; i<fieldNames.size(); i++)
+		{
+			System.out.print(fieldNames.get(i));
+			System.out.print("   |  ");
+		}
+		System.out.println(" ");
+		System.out.println("-----------------------------------------------------------------------");
 		
 		for(int i=0; i<result.size(); i++)
 		{
@@ -458,11 +466,12 @@ class Statement
 		return true;
 	}
 	
-	public void printOneTuple(Tuple tuple, String whereCondition, ArrayList<String> projectionAttrs)
+	public Tuple printOneTuple(Tuple tuple, String whereCondition, ArrayList<String> projectionAttrs)
 	{
 		
 		if( testCondition(tuple,whereCondition) == false)
-			return;
+			return null;
+		
 		for(int i=0; i<projectionAttrs.size(); i++)
 		{
 			System.out.print("\t" + tuple.getField(projectionAttrs.get(i)));
@@ -475,6 +484,7 @@ class Statement
 //		}
 		
 		System.out.println("    ");
+		return tuple;
 	}
 	
 	

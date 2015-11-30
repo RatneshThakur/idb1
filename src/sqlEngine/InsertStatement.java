@@ -52,10 +52,12 @@ public class InsertStatement extends Statement
 		   allMatches.add(matchedPart);		   
 		 }	
 		
-		 ArrayList<ArrayList<String>> valuesList = new ArrayList<ArrayList<String>>(); 
+		 ArrayList<Tuple> valuesList = new ArrayList<Tuple>(); 
 		 
 		if(stmt.contains("SELECT"))
 		{
+			stmt = stmt.replace('{', '(');
+			stmt = stmt.replace('}', ')');
 			isSelectPresent = true;
 			attrNames = allMatches.get(0).split(",");
 			m = Pattern.compile("SELECT(.*)")
@@ -65,40 +67,24 @@ public class InsertStatement extends Statement
 				   //System.out.println(" select statement is " + matchedPart);				   
 				   
 				   SelectStatement selectStmt = new SelectStatement(stmt,mem,disk,schema_manager);
-				   valuesList = selectStmt.runStatement(true);
+				   valuesList = selectStmt.runStatement(true); //isPartOfQuery = true
  				 }
 		}
 		else
 		{
 			attrNames = allMatches.get(0).split(",");
 			attrValues = allMatches.get(1).split(",");
-			
 			//removing extra spaces if any
 			for(int i=0; i<attrNames.length; i++)
 			{				
 				attrValues[i] = attrValues[i].trim();
+				attrNames[i] = attrNames[i].trim();
 			}		
 			
-			ArrayList<String> aListOfValues = new ArrayList<String>( Arrays.asList(attrValues) );
-			valuesList.add(aListOfValues);
-		}
-		
-		//removing extra spaces if any
-		for(int i=0; i<attrNames.length; i++)
-		{
-			attrNames[i] = attrNames[i].trim();			
-		}
-		 
-		 
-		//parsing logic ends 
-		int count = 0;
-		//now attributes names and values have been collected.Lets create a tuple
-		for( int j = 0; j< valuesList.size(); j++)
-		{
+			//ArrayList<String> aListOfValues = new ArrayList<String>( Arrays.asList(attrValues) );
 			Tuple tuple = relation_reference.createTuple();
-			count++;
-			attrValues = new String[valuesList.get(j).size()];
-			attrValues = valuesList.get(j).toArray(attrValues);
+			
+			
 			for(int i=0; i<attrNames.length; i++)
 			{
 				try
@@ -111,19 +97,37 @@ public class InsertStatement extends Statement
 					tuple.setField(attrNames[i], attrValues[i]);
 				}
 				//tuple.setField(attrNames[i],"v11");			    
-			}			
+			}
+			valuesList.add(tuple);
+		}
+		
+		//parsing logic ends 
+		int count = 0;
+		//now attributes names and values have been collected.Lets create a tuple
+		for( int j = 0; j< valuesList.size(); j++)
+		{
+			count++;
+			Tuple current = valuesList.get(j);
+						
 			Block block_reference=mem.getBlock(0); //access to memory block 0
 		    block_reference.clear(); //clear the block
 		    
-		    block_reference.appendTuple(tuple);		    
+		    block_reference.appendTuple(current);		    
 			
-		    Parser.appendTupleToRelation(relation_reference, mem, 9, tuple);
+		    Parser.appendTupleToRelation(relation_reference, mem, 9, current);
 		}
 			    
 	   if(count > 1)
-		   System.out.println(count+" rows inserted successfully.");
+	   {
+		   System.out.println(count+" rows inserted successfully."); 
+		   System.out.println("No of disk I/Os for this operation are " + disk.getDiskIOs());
+	   }		  
 	   else
+	   {
 		   System.out.println(count+" row inserted successfully.");
+		   System.out.println("No of disk I/Os for this operation are " + disk.getDiskIOs());
+	   }
+		   
 		return true;
 	}
 }

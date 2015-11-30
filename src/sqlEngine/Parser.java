@@ -45,7 +45,8 @@ public class Parser {
 //			catch(Exception ex)
 //			{
 //				System.out.println(" Some error occured -- We are looking into it");
-//			}			
+//			}
+			disk.resetDiskIOs();
 			st.analyzeStatement();
 		}		
 	}
