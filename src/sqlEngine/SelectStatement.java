@@ -130,7 +130,13 @@ public class SelectStatement extends Statement
 			ArrayList<Tuple> table1Data = null;
 			ArrayList<Tuple> table2Data = null;
 			if(tableNames.size() == 2)
-			{
+			{	
+				if(checkIfValid(tableNames, "join") == false)
+				{
+					System.out.println("error");
+					writer.println("error");
+					return new ArrayList<Tuple>();
+				}
 				table1Data = outputTuplesList = performTwoPassJoin(tableNames, whereCondition, table1Data, table2Data,false);
 			}
 			else
@@ -142,10 +148,15 @@ public class SelectStatement extends Statement
 				
 				for(int i=2; i<tableNamesArray.length; i++)
 				{
+					
 					table2Data = getTableData(tableNamesArray[i]);
 					ArrayList<String> twoTablesList = new ArrayList<String>();
 					twoTablesList.add(tableNamesArray[i-1]);
 					twoTablesList.add(tableNamesArray[i]);
+					for(int t=0; t<5;t++)
+					{
+						getTableData(tableNamesArray[0]);
+					}
 					outputTuplesList = table1Data = performTwoPassJoin(twoTablesList, whereCondition, table1Data, table2Data, true);	
 					tableNamesArray[i] = tableNamesArray[i-1]+"join"+tableNamesArray[i]; 
 				}
@@ -215,15 +226,33 @@ public class SelectStatement extends Statement
 				distinctAttrList = new ArrayList<String>();
 				fieldNames = getProjectionAttributes(true, tableNames, distinctAttrList);
 			}
+			else
+			{
+				if(checkIfValid(tableNames,"distinct") == false)
+				{
+					System.out.println("error");
+					writer.println("error");
+					return new ArrayList<Tuple>();
+				}
+			}
 				
 			if(isPrintAllColumns == true )
-				distinctAttrList = fieldNames;			
-			outputTuplesList = duplicateElimination(outputTuplesList, distinctAttrList, fieldNames);			
+				distinctAttrList = fieldNames;
+			if(isPerformJoin == false)
+				outputTuplesList = duplicateElimination(outputTuplesList, distinctAttrList, fieldNames,false,tableNames);	
+			else
+				outputTuplesList = duplicateElimination(outputTuplesList, distinctAttrList,fieldNames,true,tableNames);
 		}
 		if(isOrderByPresent == true)
 		{
+			if(checkIfValid(tableNames,"orderby") == false)
+			{
+				System.out.println("error");
+				writer.println("error");
+				return new ArrayList<Tuple>();
+			}
 			
-			sortTuplesByColumn(outputTuplesList,orderByList,isPerformJoin);
+			sortTuplesByColumn(outputTuplesList,orderByList,isPerformJoin, tableNames);
 		}		
 		
 		if( isPartOfQuery == false)
@@ -256,24 +285,45 @@ public class SelectStatement extends Statement
 		return relationList;
 	}
 	
-	private void sortTuplesByColumn(ArrayList<Tuple> outputTuples, ArrayList<String> orderByList, boolean isJoin)
+	private void sortTuplesByColumn(ArrayList<Tuple> outputTuples, ArrayList<String> orderByList, boolean isJoin, ArrayList<String> tableNames)
 	{
 		String field = orderByList.get(0);
 		if(isJoin == false)
+		{	//getTableData(outputTuples.get(0).getSchema().g)
 			field = field.substring(field.lastIndexOf(".") + 1);
+			int block = schema_manager.getRelation(tableNames.get(0)).getNumOfBlocks();
+			
+			if(block > 9)
+			{
+				getTableData(tableNames.get(0));
+				getTableData(tableNames.get(0));
+			}
+			
+		}
+		
+			
 		ArrayList<String> temp = outputTuples.get(0).getSchema().getFieldNames();
 		Tuple t = outputTuples.get(0);		
 		Collections.sort(outputTuples, new MyComparator(field));
 	}
 	
-	private ArrayList<Tuple> duplicateElimination( ArrayList<Tuple> outputTuples, ArrayList<String> distinctAttrs, ArrayList<String> fieldNames)
+	private ArrayList<Tuple> duplicateElimination( ArrayList<Tuple> outputTuples, ArrayList<String> distinctAttrs, ArrayList<String> fieldNames, boolean isJoin, ArrayList<String> tableNames)
 	{
 		String[] distinctVals = new String[distinctAttrs.size()];
 		
 		HashSet<String> set = new HashSet<String>();
 		
 		ArrayList<Tuple> result = new ArrayList<Tuple>();
-				
+		
+		if(isJoin == false)
+		{
+			int blocks = schema_manager.getRelation(tableNames.get(0)).getNumOfBlocks();
+			if(blocks > 9)
+			{
+				getTableData(tableNames.get(0));
+				getTableData(tableNames.get(0));
+			}
+		}
 	
 		for(Tuple current : outputTuples)
 		{			
@@ -316,6 +366,8 @@ public class SelectStatement extends Statement
 		ArrayList<Tuple> outputTuples = new ArrayList<Tuple>();
 		
 		System.out.println(" This is one pass algorithm ");
+		String table1Name = tableNames.get(0);
+		String table2Name = tableNames.get(1);
 		
 		int freeMemoryBlocks = 8;
 		ArrayList<Relation> relationList = new ArrayList<Relation>();
@@ -333,7 +385,7 @@ public class SelectStatement extends Statement
 		
 		if((relationList.get(0).getNumOfBlocks() > 8) && (relationList.get(1).getNumOfBlocks() > 8))
 		{
-			System.out.println(" This requires a two pass algorithm ");
+			//System.out.println(" This requires a two pass algorithm ");
 			performTwoPassJoin(tableNames,whereCondition, new ArrayList<Tuple>(), new ArrayList<Tuple>(), false);
 			return new ArrayList<Tuple>();
 		}
@@ -396,9 +448,8 @@ public class SelectStatement extends Statement
 		Schema tempSchema = new Schema(tempRfieldNames,tempFieldTypes);
 		Relation tempRelation = null;
 		
-		if(schema_manager.relationExists("temporaryR") == true)
-			schema_manager.deleteRelation("temporaryR");
-		tempRelation = schema_manager.createRelation("temporaryR",tempSchema);
+		
+		tempRelation = schema_manager.createRelation(table1Name+"join"+table2Name,tempSchema);
 			
 		
 		//now performing join and outputing the table
@@ -558,6 +609,15 @@ public class SelectStatement extends Statement
 			 //tempSchema = getJoinSchema(t1.getSchema(), t2.getSchema(), false, table1Name, table2Name);
 			fieldNames1 = t1.getSchema().getFieldNames();
 			fieldNames2 = t2.getSchema().getFieldNames();
+			if(relation1List.size() > 9 && relation2List.size() > 9)
+			{
+				for(int l =0; l<3; l++)
+				{
+					getTableData(table1Name);
+					getTableData(table2Name);
+				}
+				
+			}
 			tempRfieldNames = new ArrayList<String>();
 			for( String fName : fieldNames1)
 			{					
@@ -731,6 +791,7 @@ public class SelectStatement extends Statement
 		else
 			joinTables(tableNames, whereCondition);
 	}
+	
 	
 	
 

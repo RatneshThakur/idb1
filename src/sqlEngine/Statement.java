@@ -137,8 +137,8 @@ class Statement
 				}	
 			}
 			
-			for(String s : orderByList)
-				System.out.println(" order by column " + s);
+//			for(String s : orderByList)
+//				System.out.println(" order by column " + s);
 					
 		} // end of where if
 		else
@@ -513,6 +513,77 @@ class Statement
 		return tuple;
 	}
 	
+	public void findOrderOfJoin(ArrayList<String> tableNames)
+	{
+		int[] sizeOfTables = new int[tableNames.size()];
+		for(int i=0; i<sizeOfTables.length; i++)
+		{
+			sizeOfTables[i] = schema_manager.getRelation(tableNames.get(0)).getNumOfBlocks();
+		}
+		
+		int[][] map = new int[tableNames.size()][tableNames.size()];
+		for(int i=0; i<map.length; i++)
+		{
+			for(int j=0; j<map[0].length; j++)
+			{
+				map[i][j] = Integer.MAX_VALUE;
+			}
+		}
+		int i=0;
+		int j = sizeOfTables.length - 1;
+		int cost = findOrder_Aux(map,i,j, sizeOfTables);
+	}
+	
+	public int findOrder_Aux(int[][] map, int i, int j, int[] sizeOfTables)
+	{
+		if(i==j)
+		{
+			return 0;
+		}
+		else if(map[i][j] < Integer.MAX_VALUE)
+		{
+			return map[i][j];
+		}
+		else
+		{
+			
+			for(int k=i; k<j; k++)
+			{
+				int q = findOrder_Aux(map,i,k,sizeOfTables) + findOrder_Aux(map,k+1,j, sizeOfTables) + sizeOfTables[i]*sizeOfTables[k]*sizeOfTables[j];
+				if(q < map[i][j])
+				{
+					map[i][j] = q;
+				}
+			}
+		}
+		return map[i][j];
+	}
+	
+	public boolean checkIfValid(ArrayList<String> tableNames, String operation)
+	{
+		if(operation.equals("distinct"))
+		{
+			int block1 = schema_manager.getRelation(tableNames.get(0)).getNumOfBlocks();
+			if(block1 > 81)
+				return false;
+		}
+		else if(operation.equals("join"))
+		{
+			int block1 = schema_manager.getRelation(tableNames.get(0)).getNumOfBlocks();
+			int block2 = schema_manager.getRelation(tableNames.get(1)).getNumOfBlocks();
+			if(Math.min(block1,block2) > 81)
+			{
+				return false;
+			}
+		}
+		else if(operation.equals("orderby"))
+		{
+			int block1 = schema_manager.getRelation(tableNames.get(0)).getNumOfBlocks();
+			if(block1 > 81)
+				return false;
+		}
+		return true;
+	}
 	
 	public ArrayList<String> createPostFix(String whereClause)
 	{
