@@ -53,7 +53,14 @@ public class Parser {
 			disk.resetDiskIOs();
 			disk.resetDiskTimer();
 			
-			st.analyzeStatement();
+			try{
+				st.analyzeStatement();
+			}
+			catch(Exception ex)
+			{
+				System.out.println("Some error occured while running this query");
+			}
+			
 			
 			writer.println("Disk I/O: " + disk.getDiskIOs());
 			writer.println("Execution time: " + disk.getDiskTimer());
