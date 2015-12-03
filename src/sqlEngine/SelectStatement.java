@@ -230,8 +230,7 @@ public class SelectStatement extends Statement
 			if(isPerformJoin == true)
 				fieldNames = getProjectionAttributes(true, tableNames, distinctAttrList);
 		
-			projectionTuples(outputTuplesList, fieldNames, whereCondition);
-			System.out.println("Number of disk I/Os for this operation are " + disk.getDiskIOs());
+			projectionTuples(outputTuplesList, fieldNames, whereCondition);			
 		}
 			
 		joinCleanup(tableNames);

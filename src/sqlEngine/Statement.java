@@ -13,6 +13,7 @@ import storageManager.MainMemory;
 import storageManager.Relation;
 import storageManager.SchemaManager;
 import storageManager.Tuple;
+import java.io.*;
 
 class Statement
 {
@@ -21,21 +22,24 @@ class Statement
     SchemaManager schema_manager;
     
 	String stmt;
+	PrintWriter writer;
+
 	
-	public Statement(String stmt_var, MainMemory mem_var,Disk disk_var, SchemaManager schema_manager_var)
+	public Statement(String stmt_var, MainMemory mem_var,Disk disk_var, SchemaManager schema_manager_var, PrintWriter writer_var)
 	{
 		stmt = stmt_var;
 		mem = mem_var;
 		disk = disk_var;
 	    schema_manager =schema_manager_var;
+	    writer = writer_var;
 	}
 	
 	public void analyzeStatement()
 	{
 		String[] stmtSplit = stmt.split(" ");
-		System.out.println("\nThe statment is : " + stmt);
+		System.out.println(stmt);
 		// will optimize it later -- Need to remove split 
-		disk.resetDiskIOs();
+		
 		if(stmtSplit[0].equals("CREATE")){			
 			CreateStatement cs = new CreateStatement(stmt,mem,disk,schema_manager);
 			cs.runStatement();
@@ -62,7 +66,7 @@ class Statement
 			deleteStmt.runStatement();
 		}
 		
-		System.out.println(" Total time elasped " + disk.getDiskTimer());
+		
 		
 	}
 	
@@ -423,14 +427,14 @@ class Statement
 	
 	public void projectionTuples(ArrayList<Tuple> result, ArrayList<String> fieldNames, String whereCondition)
 	{
-		System.out.print("\t");
+		//System.out.print("\t");
 		for( int i=0; i<fieldNames.size(); i++)
 		{
 			System.out.print(fieldNames.get(i));
-			System.out.print("   |  ");
+			System.out.print("  ");
 		}
 		System.out.println(" ");
-		System.out.println("-----------------------------------------------------------------------");
+		//System.out.println("-----------------------------------------------------------------------");
 		if(result.size() == 0)
 			return;
 		Tuple current = result.get(0);
@@ -448,7 +452,7 @@ class Statement
 				continue;
 			for( int j=0; j<fieldNames.size(); j++)
 				{
-					System.out.print("\t" + result.get(i).getField(fieldNames.get(j)) + "");
+					System.out.print("  " + result.get(i).getField(fieldNames.get(j)) + "  ");
 				}
 				System.out.println("  ");
 		}

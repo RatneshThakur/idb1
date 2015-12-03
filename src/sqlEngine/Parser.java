@@ -1,7 +1,10 @@
 package sqlEngine;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,7 +13,7 @@ import storageManager.*;
 
 public class Parser {
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException
 	{
 		//ReadFile rf = new ReadFile("C:/Users/RatneshThakur/Desktop/Course Materials/Database Systems/Database Systems Project 2/TinySQL_windows - Copy.txt"); //contains file name which contains sql statement
 		
@@ -18,27 +21,27 @@ public class Parser {
 		
 		ArrayList<String> fileData = rf.readFileText();	//contains file data in the form of array list
 		
-		System.out.println(" Size of the file : " + fileData.size() + " lines");
+		//System.out.println(" Size of the file : " + fileData.size() + " lines");
 		Statement st = null;
 		
 		
 		 //=======================Initialization=========================
-	    System.out.print("=======================Initialization=========================" + "\n");
+	    System.out.print("=======================Initialization=========================" + "\n\n");
 
 	    // Initialize the memory, disk and the schema manager
 	    MainMemory mem=new MainMemory();
 	    Disk disk=new Disk();
+	    PrintWriter writer = new PrintWriter("Output.txt", "UTF-8");
 	    //System.out.print("The memory contains " + mem.getMemorySize() + " blocks" + "\n");
 	    //System.out.print(mem + "\n" + "\n");
 	    SchemaManager schema_manager=new SchemaManager(mem,disk);
 
-	    disk.resetDiskIOs();
-	    disk.resetDiskTimer();
+	   
 
 		
 		for(int i=0; i<fileData.size(); i++)
 		{			
-			st = new Statement(fileData.get(i), mem,disk, schema_manager);
+			st = new Statement(fileData.get(i), mem,disk, schema_manager,writer);
 //			try{
 //				st.analyzeStatement();
 //			}
@@ -46,9 +49,19 @@ public class Parser {
 //			{
 //				System.out.println(" Some error occured -- We are looking into it");
 //			}
+			
 			disk.resetDiskIOs();
 			disk.resetDiskTimer();
+			
 			st.analyzeStatement();
+			
+			writer.println("Disk I/O: " + disk.getDiskIOs());
+			writer.println("Execution time: " + disk.getDiskTimer());
+			writer.println(" ");
+			
+			System.out.println("Disk I/O: " + disk.getDiskIOs());
+			System.out.println("Execution time: " + disk.getDiskTimer());
+			System.out.println(" ");
 		}		
 	}
 	

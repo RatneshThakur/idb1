@@ -21,10 +21,10 @@ class DropStatement extends Statement
 		if(relation_name != null)
 		{
 			if(schema_manager.deleteRelation(relation_name) == true);
-				System.out.println("Relation '" + relation_name + "' deleted successfully.");
+			{
+				//System.out.println("Relation '" + relation_name + "' deleted successfully.");
+			}
 		}
-			
-		
 		
 
 		return true;

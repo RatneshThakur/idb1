@@ -119,13 +119,13 @@ public class InsertStatement extends Statement
 			    
 	   if(count > 1)
 	   {
-		   System.out.println(count+" rows inserted successfully."); 
-		   System.out.println("No of disk I/Os for this operation are " + disk.getDiskIOs());
+		   //System.out.println(count+" rows inserted successfully."); 
+		   //System.out.println("No of disk I/Os for this operation are " + disk.getDiskIOs());
 	   }		  
 	   else
 	   {
-		   System.out.println(count+" row inserted successfully.");
-		   System.out.println("No of disk I/Os for this operation are " + disk.getDiskIOs());
+		   //System.out.println(count+" row inserted successfully.");
+		   //System.out.println("No of disk I/Os for this operation are " + disk.getDiskIOs());
 	   }
 		   
 		return true;
