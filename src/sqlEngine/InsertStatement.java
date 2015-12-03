@@ -1,5 +1,6 @@
 package sqlEngine;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,9 +18,9 @@ public class InsertStatement extends Statement
 {
 	Relation relation_reference;
 	String relation_name;
-	public InsertStatement(String stmt_var, MainMemory mem_var,Disk disk_var, SchemaManager schema_manager_var)
+	public InsertStatement(String stmt_var, MainMemory mem_var,Disk disk_var, SchemaManager schema_manager_var, PrintWriter writer_var)
 	{
-		super(stmt_var,mem_var,disk_var,schema_manager_var);
+		super(stmt_var,mem_var,disk_var,schema_manager_var,writer_var);
 	}
 	
 	//Insert Statement
@@ -66,7 +67,7 @@ public class InsertStatement extends Statement
 				   String matchedPart = m.group();
 				   //System.out.println(" select statement is " + matchedPart);				   
 				   
-				   SelectStatement selectStmt = new SelectStatement(stmt,mem,disk,schema_manager);
+				   SelectStatement selectStmt = new SelectStatement(stmt,mem,disk,schema_manager,writer);
 				   valuesList = selectStmt.runStatement(true); //isPartOfQuery = true
  				 }
 		}

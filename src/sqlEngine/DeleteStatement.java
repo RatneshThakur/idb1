@@ -1,5 +1,6 @@
 package sqlEngine;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,9 +24,9 @@ public class DeleteStatement extends Statement
 	Relation relation_reference;
 	String relation_name;
 	
-	public DeleteStatement(String stmt_var, MainMemory mem_var,Disk disk_var, SchemaManager schema_manager_var)
+	public DeleteStatement(String stmt_var, MainMemory mem_var,Disk disk_var, SchemaManager schema_manager_var,PrintWriter writer_var)
 	{
-		super(stmt_var,mem_var,disk_var,schema_manager_var);
+		super(stmt_var,mem_var,disk_var,schema_manager_var,writer_var);
 	}
 	
 	public void runStatement()

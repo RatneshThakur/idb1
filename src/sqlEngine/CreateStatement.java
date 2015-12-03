@@ -1,5 +1,6 @@
 package sqlEngine;
 
+import java.io.*;
 import java.util.ArrayList;
 
 import storageManager.Disk;
@@ -14,17 +15,19 @@ public class CreateStatement
 	MainMemory mem;
     Disk disk;   
     SchemaManager schema_manager;
+    PrintWriter writer;
 	
 	String stmt;
 	ArrayList<String> attr_List;
 	ArrayList<FieldType> attr_types;	
 	
-	public CreateStatement(String stmt_var, MainMemory mem_var,Disk disk_var, SchemaManager schema_manager_var)
+	public CreateStatement(String stmt_var, MainMemory mem_var,Disk disk_var, SchemaManager schema_manager_var, PrintWriter writer_var)
 	{
 		stmt = stmt_var;
 		mem = mem_var;
 		disk = disk_var;
 	    schema_manager =schema_manager_var;
+	    writer = writer_var;
 	    
 	    attr_List = new ArrayList<String>();
 		attr_types = new ArrayList<FieldType>();

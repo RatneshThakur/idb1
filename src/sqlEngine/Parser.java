@@ -31,7 +31,7 @@ public class Parser {
 	    // Initialize the memory, disk and the schema manager
 	    MainMemory mem=new MainMemory();
 	    Disk disk=new Disk();
-	    PrintWriter writer = new PrintWriter("Output.txt", "UTF-8");
+	    PrintWriter writer = new PrintWriter("Output.txt");
 	    //System.out.print("The memory contains " + mem.getMemorySize() + " blocks" + "\n");
 	    //System.out.print(mem + "\n" + "\n");
 	    SchemaManager schema_manager=new SchemaManager(mem,disk);
@@ -62,7 +62,8 @@ public class Parser {
 			System.out.println("Disk I/O: " + disk.getDiskIOs());
 			System.out.println("Execution time: " + disk.getDiskTimer());
 			System.out.println(" ");
-		}		
+		}
+		writer.close();
 	}
 	
 	public static void appendTupleToRelation(Relation relation_reference, MainMemory mem, int memory_block_index, Tuple tuple) {

@@ -1,0 +1,79 @@
+CREATE TABLE course (sid INT, homework INT, project INT, exam INT, grade STR20)
+Disk I/O: 0
+Execution time: 0.0
+ 
+INSERT INTO course (sid, homework, project, exam, grade) VALUES (1, 99, 100, 100, "A")
+Disk I/O: 1
+Execution time: 74.63
+ 
+SELECT * FROM course
+sid  homework  project  exam  grade   
+  1    99    100    100    "A"    
+Disk I/O: 1
+Execution time: 74.63
+ 
+INSERT INTO course (sid, homework, project, exam, grade) VALUES (2, 0, 100, 100, "E")
+Disk I/O: 2
+Execution time: 149.26
+ 
+SELECT * FROM course
+sid  homework  project  exam  grade   
+  1    99    100    100    "A"    
+  2    0    100    100    "E"    
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (sid, grade, exam, project, homework) VALUES (3, "E", 100, 100, 100)
+Disk I/O: 2
+Execution time: 149.26
+ 
+SELECT * FROM course
+sid  homework  project  exam  grade   
+  1    99    100    100    "A"    
+  2    0    100    100    "E"    
+  3    100    100    100    "E"    
+Disk I/O: 3
+Execution time: 223.89
+ 
+SELECT * FROM course
+sid  homework  project  exam  grade   
+  1    99    100    100    "A"    
+  2    0    100    100    "E"    
+  3    100    100    100    "E"    
+Disk I/O: 3
+Execution time: 223.89
+ 
+DELETE FROM course WHERE grade = "E"
+Disk I/O: 6
+Execution time: 447.78
+ 
+SELECT * FROM course
+sid  homework  project  exam  grade   
+  1    99    100    100    "A"    
+Disk I/O: 3
+Execution time: 223.89
+ 
+INSERT INTO course (sid, homework, project, exam, grade) VALUES (4, 99, 100, 100, "B")
+Disk I/O: 2
+Execution time: 149.26
+ 
+SELECT * FROM course
+sid  homework  project  exam  grade   
+  1    99    100    100    "A"    
+  4    99    100    100    "B"    
+Disk I/O: 4
+Execution time: 298.52
+ 
+DELETE FROM course
+Disk I/O: 8
+Execution time: 597.04
+ 
+SELECT * FROM course
+sid  homework  project  exam  grade   
+Disk I/O: 4
+Execution time: 298.52
+ 
+DROP TABLE course
+Disk I/O: 0
+Execution time: 0.0
+ 

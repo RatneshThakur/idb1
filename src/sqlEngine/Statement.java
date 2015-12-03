@@ -37,32 +37,33 @@ class Statement
 	public void analyzeStatement()
 	{
 		String[] stmtSplit = stmt.split(" ");
+		writer.println(stmt);
 		System.out.println(stmt);
 		// will optimize it later -- Need to remove split 
 		
 		if(stmtSplit[0].equals("CREATE")){			
-			CreateStatement cs = new CreateStatement(stmt,mem,disk,schema_manager);
+			CreateStatement cs = new CreateStatement(stmt,mem,disk,schema_manager,writer);
 			cs.runStatement();
 		}
 		else if(stmtSplit[0].equals("INSERT"))
 		{
-			InsertStatement insertStmt = new InsertStatement(stmt,mem,disk,schema_manager);
+			InsertStatement insertStmt = new InsertStatement(stmt,mem,disk,schema_manager,writer);
 			insertStmt.runStatement();
 			//This is also done.
 		}
 		else if(stmtSplit[0].equals("DROP"))
 		{
-			DropStatement dropStmt = new DropStatement(stmt,mem,disk,schema_manager);
+			DropStatement dropStmt = new DropStatement(stmt,mem,disk,schema_manager,writer);
 			dropStmt.runStatement();
 		}
 		else if(stmtSplit[0].equals("SELECT"))
 		{
-			SelectStatement selectStmt = new SelectStatement(stmt,mem,disk,schema_manager);
+			SelectStatement selectStmt = new SelectStatement(stmt,mem,disk,schema_manager,writer);
 			selectStmt.runStatement(false);
 		}
 		else if(stmtSplit[0].equals("DELETE"))
 		{
-			DeleteStatement deleteStmt = new DeleteStatement(stmt,mem,disk,schema_manager);
+			DeleteStatement deleteStmt = new DeleteStatement(stmt,mem,disk,schema_manager,writer);
 			deleteStmt.runStatement();
 		}
 		
@@ -430,9 +431,13 @@ class Statement
 		//System.out.print("\t");
 		for( int i=0; i<fieldNames.size(); i++)
 		{
+			writer.print(fieldNames.get(i));
 			System.out.print(fieldNames.get(i));
+			
+			writer.print("  ");
 			System.out.print("  ");
 		}
+		writer.println(" ");
 		System.out.println(" ");
 		//System.out.println("-----------------------------------------------------------------------");
 		if(result.size() == 0)
@@ -452,8 +457,10 @@ class Statement
 				continue;
 			for( int j=0; j<fieldNames.size(); j++)
 				{
+					writer.print("  " + result.get(i).getField(fieldNames.get(j)) + "  ");
 					System.out.print("  " + result.get(i).getField(fieldNames.get(j)) + "  ");
 				}
+				writer.println("  ");
 				System.out.println("  ");
 		}
 	}
@@ -465,7 +472,7 @@ class Statement
 			relation_reference.getBlock(i,2+i);
 		}
 		
-		System.out.println("Memory state during one pass sort " + mem);
+		//System.out.println("Memory state during one pass sort " + mem);
 		return true;
 	}
 	

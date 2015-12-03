@@ -1,5 +1,6 @@
 package sqlEngine;
 
+import java.io.*;
 import java.util.*;
 import java.util.HashMap;
 import java.util.Stack;
@@ -29,9 +30,9 @@ public class SelectStatement extends Statement
 	Relation relation_reference;
 	String relation_name;
 	
-	public SelectStatement(String stmt_var, MainMemory mem_var,Disk disk_var, SchemaManager schema_manager_var)
+	public SelectStatement(String stmt_var, MainMemory mem_var,Disk disk_var, SchemaManager schema_manager_var, PrintWriter writer_var)
 	{
-		super(stmt_var,mem_var,disk_var,schema_manager_var);
+		super(stmt_var,mem_var,disk_var,schema_manager_var,writer_var);
 	}
 	
 	public ArrayList<Tuple> runStatement(boolean isPartOfQuery)
