@@ -439,18 +439,18 @@ class Statement
 //		for(String s : fields)
 //			System.out.print(" "+s);
 		//System.out.println(" ");
-		System.out.println(" where condition is " + whereCondition);
+		//System.out.println(" where condition is " + whereCondition);
 		for(int i=0; i<result.size(); i++)
 		{
-			if( testCondition(result.get(i), whereCondition))
-			{
-				for( int j=0; j<fieldNames.size(); j++)
+			current = result.get(i);
+			//System.out.println("Value of "  + testCondition(current, whereCondition));
+			if(!testCondition(current, whereCondition))
+				continue;
+			for( int j=0; j<fieldNames.size(); j++)
 				{
 					System.out.print("\t" + result.get(i).getField(fieldNames.get(j)) + "");
 				}
 				System.out.println("  ");
-			}
-			
 		}
 	}
 	
