@@ -6,6 +6,8 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
+
 import storageManager.Block;
 import storageManager.Disk;
 import storageManager.FieldType;
@@ -117,10 +119,45 @@ public class SelectStatement extends Statement
 		fieldNames = attrList;
 		
 		if(tableNames.size() > 1)
-		{			
+		{	
+			
 			isPerformJoin = true;
-			fieldNames = getProjectionAttributes(true, tableNames);
-			outputTuplesList = performJoinaAndOutput(tableNames,whereCondition, fieldNames);			
+			fieldNames = getProjectionAttributes(true, tableNames, distinctAttrList);
+			//from here
+			String[] tableNamesArray = new String[tableNames.size()];
+			tableNames.toArray(tableNamesArray);
+			ArrayList<Tuple> table1Data = null;
+			ArrayList<Tuple> table2Data = null;
+			if(tableNames.size() == 2)
+			{
+				table1Data = outputTuplesList = performTwoPassJoin(tableNames, whereCondition, table1Data, table2Data,false);
+			}
+			else
+			{
+				table1Data = getTableData(tableNamesArray[0]);
+				table2Data = getTableData(tableNamesArray[1]);
+				table1Data = outputTuplesList = performTwoPassJoin(tableNames, whereCondition, table1Data, table2Data, false);
+				tableNamesArray[1] = tableNamesArray[0]+"join"+tableNamesArray[1];
+				
+				for(int i=2; i<tableNamesArray.length; i++)
+				{
+					table2Data = getTableData(tableNamesArray[i]);
+					ArrayList<String> twoTablesList = new ArrayList<String>();
+					twoTablesList.add(tableNamesArray[i-1]);
+					twoTablesList.add(tableNamesArray[i]);
+					outputTuplesList = table1Data = performTwoPassJoin(twoTablesList, whereCondition, table1Data, table2Data, true);	
+					tableNamesArray[i] = tableNamesArray[i-1]+"join"+tableNamesArray[i]; 
+				}
+			}
+			
+			
+			
+			//joinCleanup(tableNames);
+			//till here
+			
+			//outputTuplesList = performTwoPassJoin(tableNames, whereCondition, isOrderByPresent, fieldNames);
+			
+			//outputTuplesList = performJoinaAndOutput(tableNames,whereCondition, fieldNames);			
 			//return outputTuplesList;
 		}
 				
@@ -172,6 +209,12 @@ public class SelectStatement extends Statement
 		
 		if(distinctPresent == true)
 		{
+			if(isPerformJoin == true)
+			{
+				distinctAttrList = new ArrayList<String>();
+				fieldNames = getProjectionAttributes(true, tableNames, distinctAttrList);
+			}
+				
 			if(isPrintAllColumns == true )
 				distinctAttrList = fieldNames;			
 			outputTuplesList = duplicateElimination(outputTuplesList, distinctAttrList, fieldNames);			
@@ -184,15 +227,34 @@ public class SelectStatement extends Statement
 		
 		if( isPartOfQuery == false)
 		{
-			projectionTuples(outputTuplesList, fieldNames);
+			if(isPerformJoin == true)
+				fieldNames = getProjectionAttributes(true, tableNames, distinctAttrList);
+		
+			projectionTuples(outputTuplesList, fieldNames, whereCondition);
 			System.out.println("Number of disk I/Os for this operation are " + disk.getDiskIOs());
 		}
 			
-		
+		joinCleanup(tableNames);
 		return outputTuplesList;
 	}
 	
-	
+	public ArrayList<Tuple> getTableData(String tableName)
+	{
+		Relation relation = schema_manager.getRelation(tableName);
+		ArrayList<Tuple> relationList = new ArrayList<Tuple>();
+		for(int i=0; i<relation.getNumOfBlocks(); i++)
+		{
+			mem.getBlock(0).clear();
+			relation.getBlock(i,0);			
+			ArrayList<Tuple> t1List = mem.getTuples(0,1);
+			for(int t=0; t<t1List.size(); t++)
+			{
+				relationList.add(t1List.get(t));
+			}
+		}
+		
+		return relationList;
+	}
 	
 	private void sortTuplesByColumn(ArrayList<Tuple> outputTuples, ArrayList<String> orderByList, boolean isJoin)
 	{
@@ -211,6 +273,7 @@ public class SelectStatement extends Statement
 		HashSet<String> set = new HashSet<String>();
 		
 		ArrayList<Tuple> result = new ArrayList<Tuple>();
+				
 	
 		for(Tuple current : outputTuples)
 		{			
@@ -237,25 +300,22 @@ public class SelectStatement extends Statement
 		return result;
 	}
 	
+	public void joinCleanup(ArrayList<String> tableNames)
+	{
+		String joinName = tableNames.get(0);
+		for(int i=1; i<(tableNames.size()); i++)
+		{
+			joinName += "join"+tableNames.get(i);
+			schema_manager.deleteRelation(joinName);
+		}
+	}
+	
 	public ArrayList<Tuple> performJoinaAndOutput(ArrayList<String> tableNames, String whereCondition, ArrayList<String> projectionAttrs)
 	{
 		//ArrayList<String> projectionAttrs = getProjectionAttributes(true, tableNames);
 		ArrayList<Tuple> outputTuples = new ArrayList<Tuple>();
 		
 		System.out.println(" This is one pass algorithm ");
-		
-		System.out.print("\t");
-		for( int i=0; i<projectionAttrs.size(); i++)
-		{
-			System.out.print(projectionAttrs.get(i));
-			System.out.print("   |  ");
-		}
-		System.out.println(" ");
-		
-		System.out.println("---------------------------------------------------------------------------------------------------------------");
-		
-		
-			
 		
 		int freeMemoryBlocks = 8;
 		ArrayList<Relation> relationList = new ArrayList<Relation>();
@@ -274,7 +334,7 @@ public class SelectStatement extends Statement
 		if((relationList.get(0).getNumOfBlocks() > 8) && (relationList.get(1).getNumOfBlocks() > 8))
 		{
 			System.out.println(" This requires a two pass algorithm ");
-			performTwoPassJoin(tableNames,whereCondition,false);
+			performTwoPassJoin(tableNames,whereCondition, new ArrayList<Tuple>(), new ArrayList<Tuple>(), false);
 			return new ArrayList<Tuple>();
 		}
 				
@@ -386,7 +446,7 @@ public class SelectStatement extends Statement
 							}
 						}
 						
-						Tuple current = printOneTuple(tempTuple,whereCondition, projectionAttrs);
+						Tuple current = printOneTuple(tempTuple,whereCondition,false);
 						if(current != null)
 							outputTuples.add(current);
 					}
@@ -398,7 +458,7 @@ public class SelectStatement extends Statement
 		return outputTuples;
 	}
 	
-	public ArrayList<String> getProjectionAttributes(boolean isJoin, ArrayList<String> tableNames)
+	public ArrayList<String> getProjectionAttributes(boolean isJoin, ArrayList<String> tableNames, ArrayList<String> distinctAttrList)
 	{
 		ArrayList<String> projectionAttrs = new ArrayList<String>();
 		
@@ -417,7 +477,6 @@ public class SelectStatement extends Statement
 		
 		if(matchedResult.contains("*"))
 		{			
-			System.out.println("printing of all columns is required");
 			isPrintAllColumns = true;
 		}
 		else
@@ -429,7 +488,8 @@ public class SelectStatement extends Statement
 				
 				if( colSplit[i].contains("DISTINCT"))
 				{	
-					
+					distinctAttrList.add(colSplit[i].trim().split(" ")[1].trim());
+					projectionAttrs.add(colSplit[i].trim().split(" ")[1].trim());
 				}
 				else
 				{					
@@ -444,7 +504,6 @@ public class SelectStatement extends Statement
 			for(int i=0; i<tableNames.size(); i++)
 			{
 				ArrayList<String> current = schema_manager.getRelation(tableNames.get(i)).getSchema().getFieldNames();
-				System.out.println(" ");
 				for(String field : current)
 				{
 					projectionAttrs.add(tableNames.get(i) + "." + field);
@@ -452,58 +511,88 @@ public class SelectStatement extends Statement
 			}
 		}
 		
+		
+		
 		return projectionAttrs;
 	}
 	
 
-	public ArrayList<Tuple> performTwoPassJoin(ArrayList<String> tableNames, String whereCondition, boolean isOrderByPresent)
+	public ArrayList<Tuple> performTwoPassJoin(ArrayList<String> tableNames, String whereCondition, ArrayList<Tuple> table1, ArrayList<Tuple> table2, boolean multi)
 	{
-		System.out.println(" Inside two pass algorithm ");
+		//System.out.println(" Inside two pass algorithm ");
 		
-		ArrayList<String> projectionAttrs = getProjectionAttributes(true,tableNames);
 		ArrayList<Tuple> outputTuples = new ArrayList<Tuple>();
 		
-		System.out.println(" Will be project these columns ");
-		
-		System.out.println("---------------------------------------------------------------------------------------------------------");
-		for(int i=0; i<projectionAttrs.size(); i++)
-		{
-			System.out.print("\t"+projectionAttrs.get(i)+"|");
-		}
-		System.out.println(" ");
-				
-
-		int freeMemoryBlocks = 8;
 		ArrayList<Relation> relationList = new ArrayList<Relation>();
-		for(String table : tableNames)
-		{
-			relationList.add(schema_manager.getRelation(table));
-		}
+		
 		
 		String table1Name = tableNames.get(0);
 		String table2Name = tableNames.get(1);
+		Relation relation1 = null;
+		Relation relation2 = null;
+		Tuple t1 = null;
+		Tuple t2 = null;
 		
-		Relation relation1 = relationList.get(0);
-		Relation relation2 = relationList.get(1);
+		ArrayList<Tuple> relation1List = null;
+		ArrayList<Tuple> relation2List = null;
+		Schema tempSchema =  null;
 		
-		relation1.getBlock(0,0);
-		relation2.getBlock(0,1);
-		//fieldNames1 for relation 1 
-		//fieldNames2 for relation 2
-		Tuple t1 = mem.getTuples(0,1).get(0);
-		Tuple t2 = mem.getTuples(1,1).get(0);
+		ArrayList<String> fieldNames1 = null;
+		ArrayList<String> fieldNames2 = null;
+		ArrayList<String> tempRfieldNames = null;
 		
-		ArrayList<String> fieldNames1 = t1.getSchema().getFieldNames();
-		ArrayList<String> fieldNames2 = t2.getSchema().getFieldNames();
-		ArrayList<String> tempRfieldNames = new ArrayList<String>();
-		for( String fName : fieldNames1)
-		{					
-			tempRfieldNames.add(table1Name+"."+fName);
-		}
-		for( String fName : fieldNames2)
+		if(multi == false)
 		{
-			tempRfieldNames.add(table2Name+ "." + fName);
+			for(String table : tableNames)
+			{
+				relationList.add(schema_manager.getRelation(table));
+			}
+			relation1 = relationList.get(0);
+			relation2 = relationList.get(1);		
+			relation1.getBlock(0,0);
+			relation2.getBlock(0,1);
+			t1 = mem.getTuples(0,1).get(0);
+			t2 = mem.getTuples(1,1).get(0);
+			relation1List = getTableData(table1Name);
+			relation2List = getTableData(table2Name);
+			 //tempSchema = getJoinSchema(t1.getSchema(), t2.getSchema(), false, table1Name, table2Name);
+			fieldNames1 = t1.getSchema().getFieldNames();
+			fieldNames2 = t2.getSchema().getFieldNames();
+			tempRfieldNames = new ArrayList<String>();
+			for( String fName : fieldNames1)
+			{					
+				tempRfieldNames.add(table1Name+"."+fName);
+			}
+			for( String fName : fieldNames2)
+			{
+				tempRfieldNames.add(table2Name+ "." + fName);
+			}
 		}
+		else
+		{
+			relation1List = table1;
+			relation2List = table2;
+			t1 = table1.get(0);
+			t2 = table2.get(0);
+			fieldNames1 = t1.getSchema().getFieldNames();
+			fieldNames2 = t2.getSchema().getFieldNames();
+			tempRfieldNames = new ArrayList<String>();
+			for( String fName : fieldNames1)
+			{					
+				tempRfieldNames.add(fName);
+			}
+			for( String fName : fieldNames2)
+			{
+				tempRfieldNames.add(table2Name+ "." + fName);
+			}
+			
+			
+			 //tempSchema = getJoinSchema(t1.getSchema(), t2.getSchema(), true, table1Name, table2Name);
+		}
+		
+		
+		
+		
 		
 		ArrayList<FieldType> tempFieldTypes = t1.getSchema().getFieldTypes();
 		ArrayList<FieldType> FieldTypes2 = t2.getSchema().getFieldTypes();
@@ -513,51 +602,36 @@ public class SelectStatement extends Statement
 			tempFieldTypes.add(ftype);
 		}
 		
-		Schema tempSchema = new Schema(tempRfieldNames,tempFieldTypes);
+		tempSchema = new Schema(tempRfieldNames,tempFieldTypes);
 		Relation tempRelation = null;
 		
-		tempRelation = schema_manager.createRelation("temporaryR",tempSchema);
-		//temporary schema created
-		ArrayList<Tuple> relation1List = new ArrayList<Tuple>();
-		for(int i=0; i<relation1.getNumOfBlocks(); i++)
-		{
-			mem.getBlock(0).clear();
-			relation1.getBlock(i,0);			
-			ArrayList<Tuple> t1List = mem.getTuples(0,1);
-			for(int t=0; t<t1List.size(); t++)
-			{
-				relation1List.add(t1List.get(t));
-			}
-		}
-		ArrayList<Tuple> relation2List = new ArrayList<Tuple>();
-		for( int i=0; i<relation2.getNumOfBlocks(); i++)
-		{
-			mem.getBlock(8).clear();
-			relation2.getBlock(i,8);
-			ArrayList<Tuple> t2List = mem.getTuples(8,1);
-			for(int t=0; t<t2List.size(); t++)
-			{
-				relation2List.add(t2List.get(t));
-			}
-			
-		}
 		
-		System.out.println(" Number of tuples in 1 and 2 are " + relation1List.size() + " and  " + relation2List.size());
+		tempRelation = schema_manager.createRelation(table1Name+"join"+table2Name,tempSchema);
+		//temporary schema created
+		
 		Tuple tempTuple = null;
+		
+		tempTuple = tempRelation.createTuple();
 		
 		for( int i=0; i< relation1List.size(); i++)
 		{
 			Tuple t1Tuple = relation1List.get(i);
-			tempTuple = tempRelation.createTuple();
+			
 				for(String fieldName : fieldNames1)
 				{
 					if(t1Tuple.getField(fieldName).type == FieldType.INT)
 					{
-						tempTuple.setField(table1Name+"."+fieldName, t1Tuple.getField(fieldName).integer);
+						if(multi == false)
+							tempTuple.setField(table1Name+"."+fieldName, t1Tuple.getField(fieldName).integer);
+						else
+							tempTuple.setField(fieldName, t1Tuple.getField(fieldName).integer);
 					}
 					else
 					{
-						tempTuple.setField(table1Name+"."+fieldName, t1Tuple.getField(fieldName).str);
+						if(multi == false)
+							tempTuple.setField(table1Name+"."+fieldName, t1Tuple.getField(fieldName).str);
+						else
+							tempTuple.setField(fieldName, t1Tuple.getField(fieldName).str);
 					}
 				}
 			for(int j=0; j<relation2List.size(); j++)
@@ -574,14 +648,74 @@ public class SelectStatement extends Statement
 						tempTuple.setField(table2Name+"."+fieldName, t2Tuple.getField(fieldName).str);
 					}
 				}
-				printOneTuple(tempTuple,whereCondition, projectionAttrs);
-				
+				Tuple current = printOneTuple(tempTuple,whereCondition,true);
+				if(current != null)
+					outputTuples.add(current);
+				tempTuple = tempRelation.createTuple();
+				//now add 1st values to this 
+				for(String fieldName : fieldNames1)
+				{
+					if(t1Tuple.getField(fieldName).type == FieldType.INT)
+					{
+						if(multi == false)
+							tempTuple.setField(table1Name+"."+fieldName, t1Tuple.getField(fieldName).integer);
+						else
+							tempTuple.setField(fieldName, t1Tuple.getField(fieldName).integer);
+					}
+					else
+					{
+						if(multi == false)
+							tempTuple.setField(table1Name+"."+fieldName, t1Tuple.getField(fieldName).str);
+						else
+							tempTuple.setField(fieldName, t1Tuple.getField(fieldName).str);
+					}
+				}
 			}
 		}
 		
 		
-		schema_manager.deleteRelation("temporaryR");
+		//schema_manager.deleteRelation("temporaryR");
 		return outputTuples;
+		
+	}
+	
+	public Schema getJoinSchema(Schema schema1, Schema schema2, boolean multi, String table1Name, String table2Name)
+	{
+		ArrayList<String> fieldNames1 = schema1.getFieldNames();
+		ArrayList<String> fieldNames2 = schema2.getFieldNames();
+		ArrayList<String> tempRfieldNames = new ArrayList<String>();
+		if( multi == false)
+		{
+			for( String fName : fieldNames1)
+			{					
+				tempRfieldNames.add(fName);
+			}
+		}
+		else
+		{
+			for( String fName : fieldNames1)
+			{					
+				tempRfieldNames.add(table1Name+"."+fName);
+			}
+		}
+		
+		
+		for( String fName : fieldNames2)
+		{
+			tempRfieldNames.add(table2Name+ "." + fName);
+		}
+		
+		ArrayList<FieldType> tempFieldTypes = schema1.getFieldTypes();
+		ArrayList<FieldType> FieldTypes2 = schema2.getFieldTypes();
+		
+		for( FieldType ftype : FieldTypes2)
+		{
+			tempFieldTypes.add(ftype);
+		}
+		
+		Schema tempSchema = new Schema(tempRfieldNames,tempFieldTypes);
+		
+		return tempSchema;
 		
 	}
 	
@@ -600,5 +734,4 @@ public class SelectStatement extends Statement
 	
 	
 
-	
 }

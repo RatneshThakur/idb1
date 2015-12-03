@@ -62,6 +62,8 @@ class Statement
 			deleteStmt.runStatement();
 		}
 		
+		System.out.println(" Total time elasped " + disk.getDiskTimer());
+		
 	}
 	
 	public String getTableNames(ArrayList<String> tableNames,String pattern1, String pattern2,ArrayList<String> orderByList)
@@ -286,7 +288,7 @@ class Statement
 		try{
 		value1 = Boolean.parseBoolean(field1);
 		value2 = Boolean.parseBoolean(field2);		
-		
+		//System.out.println(" value1 and value2 " + value1 + " " + value2);
 		if(operator.equals("AND"))
 			output.push(new Boolean(value2&&value1).toString());
 		else if(operator.equals("OR"))
@@ -419,7 +421,7 @@ class Statement
 			output.push(new Integer(value1).toString());
 	}
 	
-	public void projectionTuples(ArrayList<Tuple> result, ArrayList<String> fieldNames)
+	public void projectionTuples(ArrayList<Tuple> result, ArrayList<String> fieldNames, String whereCondition)
 	{
 		System.out.print("\t");
 		for( int i=0; i<fieldNames.size(); i++)
@@ -429,14 +431,26 @@ class Statement
 		}
 		System.out.println(" ");
 		System.out.println("-----------------------------------------------------------------------");
-		
+		if(result.size() == 0)
+			return;
+		Tuple current = result.get(0);
+		ArrayList<String> fields = current.getSchema().getFieldNames();
+//		System.out.println(" These are teh field names ");
+//		for(String s : fields)
+//			System.out.print(" "+s);
+		//System.out.println(" ");
+		System.out.println(" where condition is " + whereCondition);
 		for(int i=0; i<result.size(); i++)
 		{
-			for( int j=0; j<fieldNames.size(); j++)
+			if( testCondition(result.get(i), whereCondition))
 			{
-				System.out.print("\t" + result.get(i).getField(fieldNames.get(j)) + "");
+				for( int j=0; j<fieldNames.size(); j++)
+				{
+					System.out.print("\t" + result.get(i).getField(fieldNames.get(j)) + "");
+				}
+				System.out.println("  ");
 			}
-			System.out.println("  ");
+			
 		}
 	}
 	
@@ -466,24 +480,25 @@ class Statement
 		return true;
 	}
 	
-	public Tuple printOneTuple(Tuple tuple, String whereCondition, ArrayList<String> projectionAttrs)
+	public Tuple printOneTuple(Tuple tuple, String whereCondition, boolean multiCondition)
 	{
+		if(multiCondition == true)
+			return tuple;
 		
 		if( testCondition(tuple,whereCondition) == false)
 			return null;
 		
-		for(int i=0; i<projectionAttrs.size(); i++)
-		{
-			System.out.print("\t" + tuple.getField(projectionAttrs.get(i)));
-		}
-		System.out.println("  ");
+//		for(int i=0; i<projectionAttrs.size(); i++)
+//		{
+//			System.out.print("\t" + tuple.getField(projectionAttrs.get(i)));
+//		}
+		//System.out.println("  ");
 //		for( int i=0; i<tuple.getNumOfFields(); i++)
 //		{
 //			for(int f=0; f<projectionAttrs.size(); f++)
 //				System.out.print(" \t " + tuple.getField(projectionAttrs.get(f)).toString());
 //		}
 		
-		System.out.println("    ");
 		return tuple;
 	}
 	
