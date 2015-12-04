@@ -133,8 +133,8 @@ public class SelectStatement extends Statement
 			{	
 				if(checkIfValid(tableNames, "join") == false)
 				{
-					System.out.println("error");
-					writer.println("error");
+					System.out.println("error: exceeds the square of main memory size");
+					writer.println("error: exceeds the square of main memory size");
 					return new ArrayList<Tuple>();
 				}
 				table1Data = outputTuplesList = performTwoPassJoin(tableNames, whereCondition, table1Data, table2Data,false);
@@ -230,8 +230,8 @@ public class SelectStatement extends Statement
 			{
 				if(checkIfValid(tableNames,"distinct") == false)
 				{
-					System.out.println("error");
-					writer.println("error");
+					System.out.println("error: exceeds the square of main memory size");
+					writer.println("error: exceeds the square of main memory size");
 					return new ArrayList<Tuple>();
 				}
 			}
@@ -247,8 +247,8 @@ public class SelectStatement extends Statement
 		{
 			if(checkIfValid(tableNames,"orderby") == false)
 			{
-				System.out.println("error");
-				writer.println("error");
+				System.out.println("error: exceeds the square of main memory size");
+				writer.println("error: exceeds the square of main memory size");
 				return new ArrayList<Tuple>();
 			}
 			

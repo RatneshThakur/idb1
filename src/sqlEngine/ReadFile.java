@@ -29,7 +29,7 @@ public class ReadFile
 		}
 		catch(Exception ex)
 		{
-			ex.printStackTrace();
+			System.out.println("File not found");			
 		}
 		
 		return fileData;

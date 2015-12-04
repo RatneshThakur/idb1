@@ -1,6 +1,7 @@
 package sqlEngine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Stack;
@@ -465,27 +466,49 @@ class Statement
 		}
 	}
 	
-	public boolean onePassSort(Relation relation_reference)
+	public boolean onePassSort(Relation relation_reference, String fieldName)
 	{
-		for(int i=0; i< relation_reference.getNumOfBlocks(); i++)
+		ArrayList<Tuple> temp = new ArrayList<Tuple>();
+		if(relation_reference.getNumOfBlocks() > 9)
 		{
-			relation_reference.getBlock(i,2+i);
+			return twoPassSort(relation_reference,fieldName);
 		}
+		
+		ArrayList<Tuple> relationList = new ArrayList<Tuple>();
+		for(int i=0; i<relation_reference.getNumOfBlocks(); i++)
+		{
+			mem.getBlock(0).clear();
+			relation_reference.getBlock(i,0);			
+			ArrayList<Tuple> t1List = mem.getTuples(0,1);
+			for(int t=0; t<t1List.size(); t++)
+			{
+				relationList.add(t1List.get(t));
+			}
+		}
+		Collections.sort(temp, new MyComparator(fieldName));
+		
 		
 		//System.out.println("Memory state during one pass sort " + mem);
 		return true;
 	}
 	
-	public boolean twoPassSort(Relation relation_reference)
+	public boolean twoPassSort(Relation relation_reference, String fieldName)
 	{
 		int mainMemorySize = (int)Math.sqrt((double)relation_reference.getNumOfBlocks());
+		if(relation_reference.getNumOfBlocks() > 81)
+		{
+			System.out.println("error: size of relation greater than square of main memory size");
+			return false;
+		}
+		ArrayList<Tuple> temp = new ArrayList<Tuple>();
 		for(int i=0; i<relation_reference.getNumOfBlocks(); i++)
 		{
 			for(int j=0; j<mainMemorySize; j++)
 			{
 				relation_reference.getBlock(i+j, 2+j);
 			}
-			System.out.println("Memory right now " + mem);
+			Collections.sort(temp, new MyComparator(fieldName));
+			//write blocks to memory
 		}
 		
 		return true;
