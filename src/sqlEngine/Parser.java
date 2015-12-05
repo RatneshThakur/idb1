@@ -107,6 +107,7 @@ public class Parser {
 				if(line.equals("exit"))
 				{
 					System.out.println("Program ends");
+					writer.close();
 					return;
 				}
 				st = new Statement(line, mem,disk, schema_manager,writer);

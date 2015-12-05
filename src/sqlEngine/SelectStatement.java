@@ -365,7 +365,7 @@ public class SelectStatement extends Statement
 		//ArrayList<String> projectionAttrs = getProjectionAttributes(true, tableNames);
 		ArrayList<Tuple> outputTuples = new ArrayList<Tuple>();
 		
-		System.out.println(" This is one pass algorithm ");
+		
 		String table1Name = tableNames.get(0);
 		String table2Name = tableNames.get(1);
 		
