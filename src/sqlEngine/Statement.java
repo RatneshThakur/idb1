@@ -520,18 +520,8 @@ class Statement
 			return tuple;
 		
 		if( testCondition(tuple,whereCondition) == false)
-			return null;
-		
-//		for(int i=0; i<projectionAttrs.size(); i++)
-//		{
-//			System.out.print("\t" + tuple.getField(projectionAttrs.get(i)));
-//		}
-		//System.out.println("  ");
-//		for( int i=0; i<tuple.getNumOfFields(); i++)
-//		{
-//			for(int f=0; f<projectionAttrs.size(); f++)
-//				System.out.print(" \t " + tuple.getField(projectionAttrs.get(f)).toString());
-//		}
+			return null;		
+
 		
 		return tuple;
 	}

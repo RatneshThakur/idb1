@@ -137,7 +137,8 @@ public class SelectStatement extends Statement
 					writer.println("error: exceeds the square of main memory size");
 					return new ArrayList<Tuple>();
 				}
-				table1Data = outputTuplesList = performTwoPassJoin(tableNames, whereCondition, table1Data, table2Data,false);
+				table1Data = outputTuplesList = performJoinaAndOutput(tableNames, whereCondition, fieldNames);
+						//= performTwoPassJoin(tableNames, whereCondition, table1Data, table2Data,false);
 			}
 			else
 			{
@@ -175,7 +176,7 @@ public class SelectStatement extends Statement
 				
 		//parsing logic ends here
 		
-		//following code is assumed for only one table name in from.. Later need to expand it to join 
+		//following code is assumed for only one table name in from
 		relation_reference = schema_manager.getRelation(tableNames.get(0));
 		
 		if(relation_reference == null)
@@ -183,9 +184,7 @@ public class SelectStatement extends Statement
 			System.out.println(tableNames.get(0) + " does not exist.");
 			return new ArrayList<Tuple>();
 		}
-		//test twoPasssort algorithms
-		//twoPassSort(relation_reference);
-		//onePassSort(relation_reference);
+		
 		
 		//was getting everything in once
 		//relation_reference.getBlocks(0,3,relation_reference.getNumOfBlocks());
@@ -365,6 +364,7 @@ public class SelectStatement extends Statement
 		//ArrayList<String> projectionAttrs = getProjectionAttributes(true, tableNames);
 		ArrayList<Tuple> outputTuples = new ArrayList<Tuple>();
 		
+		//System.out.println(" one pass join attempt ");
 		
 		String table1Name = tableNames.get(0);
 		String table2Name = tableNames.get(1);
@@ -386,8 +386,7 @@ public class SelectStatement extends Statement
 		if((relationList.get(0).getNumOfBlocks() > 8) && (relationList.get(1).getNumOfBlocks() > 8))
 		{
 			//System.out.println(" This requires a two pass algorithm ");
-			performTwoPassJoin(tableNames,whereCondition, new ArrayList<Tuple>(), new ArrayList<Tuple>(), false);
-			return new ArrayList<Tuple>();
+			return performTwoPassJoin(tableNames,whereCondition, null, null , false);			
 		}
 				
 		
@@ -497,9 +496,8 @@ public class SelectStatement extends Statement
 							}
 						}
 						
-						Tuple current = printOneTuple(tempTuple,whereCondition,false);
-						if(current != null)
-							outputTuples.add(current);
+						if(testCondition(tempTuple,whereCondition) == true)						
+							outputTuples.add(tempTuple);
 					}
 				}
 				
