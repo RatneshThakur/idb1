@@ -536,50 +536,41 @@ class Statement
 		return tuple;
 	}
 	
-	public void findOrderOfJoin(ArrayList<String> tableNames)
+	public void findJoinOrderDynamic(ArrayList<String> tableNames)
 	{
-		int[] sizeOfTables = new int[tableNames.size()];
-		for(int i=0; i<sizeOfTables.length; i++)
+		int[] sizeTables = new int[tableNames.size()];
+		for(int i=0; i<sizeTables.length;i++)
 		{
-			sizeOfTables[i] = schema_manager.getRelation(tableNames.get(0)).getNumOfBlocks();
+			sizeTables[i] = schema_manager.getRelation(tableNames.get(0)).getNumOfTuples();
 		}
-		
 		int[][] map = new int[tableNames.size()][tableNames.size()];
+		int[][] s = new int[tableNames.size()][tableNames.size()];
 		for(int i=0; i<map.length; i++)
 		{
 			for(int j=0; j<map[0].length; j++)
 			{
-				map[i][j] = Integer.MAX_VALUE;
+				map[i][j] = 0;
 			}
 		}
-		int i=0;
-		int j = sizeOfTables.length - 1;
-		int cost = findOrder_Aux(map,i,j, sizeOfTables);
-	}
-	
-	public int findOrder_Aux(int[][] map, int i, int j, int[] sizeOfTables)
-	{
-		if(i==j)
+		
+		int n = tableNames.size();
+		for(int l=2; l<=n; l++)
 		{
-			return 0;
-		}
-		else if(map[i][j] < Integer.MAX_VALUE)
-		{
-			return map[i][j];
-		}
-		else
-		{
-			
-			for(int k=i; k<j; k++)
+			for(int i=1; i<= (n-l+1); i++)
 			{
-				int q = findOrder_Aux(map,i,k,sizeOfTables) + findOrder_Aux(map,k+1,j, sizeOfTables) + sizeOfTables[i]*sizeOfTables[k]*sizeOfTables[j];
-				if(q < map[i][j])
+				int j = i + l -1;
+				map[i][j] = Integer.MAX_VALUE;
+				for(int k=i; k <= j-1; j++)
 				{
-					map[i][j] = q;
+					int q = map[i][k] + map[k+1][j] + ( sizeTables[i] * sizeTables[j] / Math.max(sizeTables[i],sizeTables[j]));
+					if(q < map[i][j])
+					{
+						map[i][j] = q;
+						s[i][j] = k;
+					}
 				}
 			}
 		}
-		return map[i][j];
 	}
 	
 	public boolean checkIfValid(ArrayList<String> tableNames, String operation)
