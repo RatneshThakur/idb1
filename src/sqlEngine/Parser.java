@@ -13,7 +13,7 @@ public class Parser {
 	{
 		//ReadFile rf = new ReadFile("C:/Users/RatneshThakur/Desktop/Course Materials/Database Systems/Database Systems Project 2/TinySQL_windows - Copy.txt"); //contains file name which contains sql statement
 		
-		ReadFile rf = new ReadFile("C:/Users/RatneshThakur/Desktop/Course Materials/Database Systems/Database Systems Project 2/TinySQL_windows.txt"); //contains file name which contains sql statement
+		ReadFile rf = new ReadFile("C:/Users/amanb/OneDrive/Documents/TAMU/Fall 2015/Courses/Database Systems/Project2/git/Project/src/TestScript1.txt"); //contains file name which contains sql statement
 		
 		ArrayList<String> fileData = rf.readFileText();	//contains file data in the form of array list
 		
@@ -32,7 +32,7 @@ public class Parser {
 	    // Initialize the memory, disk and the schema manager
 	    MainMemory mem=new MainMemory();
 	    Disk disk=new Disk();
-	    PrintWriter writer = new PrintWriter("Output.txt");
+	    PrintWriter writer = new PrintWriter("TestScriptOutput.txt");
 	    SchemaManager schema_manager=new SchemaManager(mem,disk);
 
 		

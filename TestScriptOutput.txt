@@ -1,0 +1,1819 @@
+CREATE TABLE student (sid INT, name STR20, cid INT)
+Disk I/O: 0
+Execution time: 0.0
+ 
+INSERT INTO student (sid, name, cid) VALUES( 200, "Trigg", 329)
+Disk I/O: 1
+Execution time: 74.63
+ 
+INSERT INTO student (sid, name, cid) VALUES( 199, "Wilson", 325)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 198, "Graham", 317)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 197, "Kevin", 322)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 196, "Trigg", 322)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 195, "Trigg", 314)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 194, "Khoa", 325)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 193, "Hernandez", 331)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 192, "Wilson", 331)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 191, "Nguyen", 313)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 190, "Graham", 331)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 189, "Wilson", 327)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 188, "Bui", 319)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 187, "Wilson", 317)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 186, "Storey", 329)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 185, "Vishwa", 325)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 184, "Daniel", 321)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 183, "Nguyen", 322)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 182, "Leslie", 325)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 181, "Nguyen", 331)
+Disk I/O: 2
+Execution time: 149.26
+ 
+SELECT * FROM student
+sid  name  cid   
+  200    "Trigg"    329    
+  199    "Wilson"    325    
+  198    "Graham"    317    
+  197    "Kevin"    322    
+  196    "Trigg"    322    
+  195    "Trigg"    314    
+  194    "Khoa"    325    
+  193    "Hernandez"    331    
+  192    "Wilson"    331    
+  191    "Nguyen"    313    
+  190    "Graham"    331    
+  189    "Wilson"    327    
+  188    "Bui"    319    
+  187    "Wilson"    317    
+  186    "Storey"    329    
+  185    "Vishwa"    325    
+  184    "Daniel"    321    
+  183    "Nguyen"    322    
+  182    "Leslie"    325    
+  181    "Nguyen"    331    
+Disk I/O: 10
+Execution time: 746.3
+ 
+SELECT * FROM student WHERE cid = 331
+sid  name  cid   
+  193    "Hernandez"    331    
+  192    "Wilson"    331    
+  190    "Graham"    331    
+  181    "Nguyen"    331    
+Disk I/O: 10
+Execution time: 746.3
+ 
+CREATE TABLE course (cid INT, name STR20)
+Disk I/O: 0
+Execution time: 0.0
+ 
+INSERT INTO course (cid, name) VALUES (332, "DATABASE")
+Disk I/O: 1
+Execution time: 74.63
+ 
+INSERT INTO course (cid, name) VALUES (331, "CLOUD COMPUTING")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (330, "COMPUTERS AND NEW MEDIA")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (329, "GAME DEVELOPMENT")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (328, "COMPUTER GRAPHICS")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (327, "FORMAL LANGUAGES AUTOM")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (326, "SOFTWARE ENGINEERING")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (325, "ARTIFICIAL INTELLIGENCE")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (324, "DESIGN ANALY ALGORITHMS")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (323, "COMPUTER ARCH & DESIGN")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (322, "PROGRAMMING STUDIO")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (321, "PROGRAMMING LANGUAGES")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (320, "INTRO TO COMPUTER SYSTEM")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (319, "COMPUTER ORGANIZATION")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (318, "DISCRETE STRUC COMPUTING")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (317, "DATA STRUC & ALGORITHM")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (316, "STRUCTURED PROG IN C")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (315, "INTRO TO COMPUTING")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (314, "INTRO PGM DESIGN CONCEPT")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (313, "CPSC CONCEPTS & PROGRAM")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (352, "DATABASE")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (351, "CLOUD COMPUTING")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (350, "COMPUTERS AND NEW MEDIA")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (349, "GAME DEVELOPMENT")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (348, "COMPUTER GRAPHICS")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (347, "FORMAL LANGUAGES AUTOM")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (346, "SOFTWARE ENGINEERING")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (345, "ARTIFICIAL INTELLIGENCE")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (344, "DESIGN ANALY ALGORITHMS")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (343, "COMPUTER ARCH & DESIGN")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (342, "PROGRAMMING STUDIO")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (341, "PROGRAMMING LANGUAGES")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (340, "INTRO TO COMPUTER SYSTEM")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (339, "COMPUTER ORGANIZATION")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (338, "DISCRETE STRUC COMPUTING")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (337, "DATA STRUC & ALGORITHM")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (336, "STRUCTURED PROG IN C")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (335, "INTRO TO COMPUTING")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (334, "INTRO PGM DESIGN CONCEPT")
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO course (cid, name) VALUES (333, "CPSC CONCEPTS & PROGRAM")
+Disk I/O: 2
+Execution time: 149.26
+ 
+SELECT * FROM course
+cid  name   
+  332    "DATABASE"    
+  331    "CLOUD COMPUTING"    
+  330    "COMPUTERS AND NEW MEDIA"    
+  329    "GAME DEVELOPMENT"    
+  328    "COMPUTER GRAPHICS"    
+  327    "FORMAL LANGUAGES AUTOM"    
+  326    "SOFTWARE ENGINEERING"    
+  325    "ARTIFICIAL INTELLIGENCE"    
+  324    "DESIGN ANALY ALGORITHMS"    
+  323    "COMPUTER ARCH & DESIGN"    
+  322    "PROGRAMMING STUDIO"    
+  321    "PROGRAMMING LANGUAGES"    
+  320    "INTRO TO COMPUTER SYSTEM"    
+  319    "COMPUTER ORGANIZATION"    
+  318    "DISCRETE STRUC COMPUTING"    
+  317    "DATA STRUC & ALGORITHM"    
+  316    "STRUCTURED PROG IN C"    
+  315    "INTRO TO COMPUTING"    
+  314    "INTRO PGM DESIGN CONCEPT"    
+  313    "CPSC CONCEPTS & PROGRAM"    
+  352    "DATABASE"    
+  351    "CLOUD COMPUTING"    
+  350    "COMPUTERS AND NEW MEDIA"    
+  349    "GAME DEVELOPMENT"    
+  348    "COMPUTER GRAPHICS"    
+  347    "FORMAL LANGUAGES AUTOM"    
+  346    "SOFTWARE ENGINEERING"    
+  345    "ARTIFICIAL INTELLIGENCE"    
+  344    "DESIGN ANALY ALGORITHMS"    
+  343    "COMPUTER ARCH & DESIGN"    
+  342    "PROGRAMMING STUDIO"    
+  341    "PROGRAMMING LANGUAGES"    
+  340    "INTRO TO COMPUTER SYSTEM"    
+  339    "COMPUTER ORGANIZATION"    
+  338    "DISCRETE STRUC COMPUTING"    
+  337    "DATA STRUC & ALGORITHM"    
+  336    "STRUCTURED PROG IN C"    
+  335    "INTRO TO COMPUTING"    
+  334    "INTRO PGM DESIGN CONCEPT"    
+  333    "CPSC CONCEPTS & PROGRAM"    
+Disk I/O: 10
+Execution time: 746.3
+ 
+SELECT name FROM course WHERE cid = 313
+name   
+  "CPSC CONCEPTS & PROGRAM"    
+Disk I/O: 10
+Execution time: 746.3
+ 
+SELECT student.sid, student.name, course.name FROM student, course WHERE student.cid = course.cid
+student.sid  student.name  course.name   
+  200    "Trigg"    "GAME DEVELOPMENT"    
+  199    "Wilson"    "ARTIFICIAL INTELLIGENCE"    
+  198    "Graham"    "DATA STRUC & ALGORITHM"    
+  197    "Kevin"    "PROGRAMMING STUDIO"    
+  196    "Trigg"    "PROGRAMMING STUDIO"    
+  195    "Trigg"    "INTRO PGM DESIGN CONCEPT"    
+  194    "Khoa"    "ARTIFICIAL INTELLIGENCE"    
+  193    "Hernandez"    "CLOUD COMPUTING"    
+  192    "Wilson"    "CLOUD COMPUTING"    
+  191    "Nguyen"    "CPSC CONCEPTS & PROGRAM"    
+  190    "Graham"    "CLOUD COMPUTING"    
+  189    "Wilson"    "FORMAL LANGUAGES AUTOM"    
+  188    "Bui"    "COMPUTER ORGANIZATION"    
+  187    "Wilson"    "DATA STRUC & ALGORITHM"    
+  186    "Storey"    "GAME DEVELOPMENT"    
+  185    "Vishwa"    "ARTIFICIAL INTELLIGENCE"    
+  184    "Daniel"    "PROGRAMMING LANGUAGES"    
+  183    "Nguyen"    "PROGRAMMING STUDIO"    
+  182    "Leslie"    "ARTIFICIAL INTELLIGENCE"    
+  181    "Nguyen"    "CLOUD COMPUTING"    
+Disk I/O: 82
+Execution time: 6119.660000000007
+ 
+INSERT INTO student (sid, name, cid) VALUES( 180, "Jonathan", 319)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 179, "Nguyen", 322)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 178, "Deyana", 326)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 177, "Karappa", 321)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 176, "Trigg", 317)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 175, "Ivan", 328)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 174, "David", 328)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 173, "Frazee", 316)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 172, "Storey", 322)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 171, "David", 316)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 170, "Hernandez", 322)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 169, "Kevin", 324)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 168, "Jonathan", 322)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 167, "Vishwa", 312)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 166, "Wilson", 325)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 165, "Ivan", 316)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 164, "Leslie", 313)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 163, "David", 323)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 162, "Daniel", 314)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 161, "Roden", 329)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 160, "Ivan", 326)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 159, "Ivan", 325)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 158, "Kevin", 320)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 157, "Daniel", 320)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 156, "Roden", 321)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 155, "Graham", 329)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 154, "Daniel", 313)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 153, "Hartman", 314)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 152, "David", 328)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 151, "Storey", 320)
+Disk I/O: 2
+Execution time: 149.26
+ 
+SELECT * FROM student
+sid  name  cid   
+  200    "Trigg"    329    
+  199    "Wilson"    325    
+  198    "Graham"    317    
+  197    "Kevin"    322    
+  196    "Trigg"    322    
+  195    "Trigg"    314    
+  194    "Khoa"    325    
+  193    "Hernandez"    331    
+  192    "Wilson"    331    
+  191    "Nguyen"    313    
+  190    "Graham"    331    
+  189    "Wilson"    327    
+  188    "Bui"    319    
+  187    "Wilson"    317    
+  186    "Storey"    329    
+  185    "Vishwa"    325    
+  184    "Daniel"    321    
+  183    "Nguyen"    322    
+  182    "Leslie"    325    
+  181    "Nguyen"    331    
+  180    "Jonathan"    319    
+  179    "Nguyen"    322    
+  178    "Deyana"    326    
+  177    "Karappa"    321    
+  176    "Trigg"    317    
+  175    "Ivan"    328    
+  174    "David"    328    
+  173    "Frazee"    316    
+  172    "Storey"    322    
+  171    "David"    316    
+  170    "Hernandez"    322    
+  169    "Kevin"    324    
+  168    "Jonathan"    322    
+  167    "Vishwa"    312    
+  166    "Wilson"    325    
+  165    "Ivan"    316    
+  164    "Leslie"    313    
+  163    "David"    323    
+  162    "Daniel"    314    
+  161    "Roden"    329    
+  160    "Ivan"    326    
+  159    "Ivan"    325    
+  158    "Kevin"    320    
+  157    "Daniel"    320    
+  156    "Roden"    321    
+  155    "Graham"    329    
+  154    "Daniel"    313    
+  153    "Hartman"    314    
+  152    "David"    328    
+  151    "Storey"    320    
+Disk I/O: 25
+Execution time: 1865.750000000001
+ 
+SELECT student.sid, student.name, course.name FROM student, course WHERE student.cid = course.cid
+student.sid  student.name  course.name   
+  200    "Trigg"    "GAME DEVELOPMENT"    
+  199    "Wilson"    "ARTIFICIAL INTELLIGENCE"    
+  198    "Graham"    "DATA STRUC & ALGORITHM"    
+  197    "Kevin"    "PROGRAMMING STUDIO"    
+  196    "Trigg"    "PROGRAMMING STUDIO"    
+  195    "Trigg"    "INTRO PGM DESIGN CONCEPT"    
+  194    "Khoa"    "ARTIFICIAL INTELLIGENCE"    
+  193    "Hernandez"    "CLOUD COMPUTING"    
+  192    "Wilson"    "CLOUD COMPUTING"    
+  191    "Nguyen"    "CPSC CONCEPTS & PROGRAM"    
+  190    "Graham"    "CLOUD COMPUTING"    
+  189    "Wilson"    "FORMAL LANGUAGES AUTOM"    
+  188    "Bui"    "COMPUTER ORGANIZATION"    
+  187    "Wilson"    "DATA STRUC & ALGORITHM"    
+  186    "Storey"    "GAME DEVELOPMENT"    
+  185    "Vishwa"    "ARTIFICIAL INTELLIGENCE"    
+  184    "Daniel"    "PROGRAMMING LANGUAGES"    
+  183    "Nguyen"    "PROGRAMMING STUDIO"    
+  182    "Leslie"    "ARTIFICIAL INTELLIGENCE"    
+  181    "Nguyen"    "CLOUD COMPUTING"    
+  180    "Jonathan"    "COMPUTER ORGANIZATION"    
+  179    "Nguyen"    "PROGRAMMING STUDIO"    
+  178    "Deyana"    "SOFTWARE ENGINEERING"    
+  177    "Karappa"    "PROGRAMMING LANGUAGES"    
+  176    "Trigg"    "DATA STRUC & ALGORITHM"    
+  175    "Ivan"    "COMPUTER GRAPHICS"    
+  174    "David"    "COMPUTER GRAPHICS"    
+  173    "Frazee"    "STRUCTURED PROG IN C"    
+  172    "Storey"    "PROGRAMMING STUDIO"    
+  171    "David"    "STRUCTURED PROG IN C"    
+  170    "Hernandez"    "PROGRAMMING STUDIO"    
+  169    "Kevin"    "DESIGN ANALY ALGORITHMS"    
+  168    "Jonathan"    "PROGRAMMING STUDIO"    
+  166    "Wilson"    "ARTIFICIAL INTELLIGENCE"    
+  165    "Ivan"    "STRUCTURED PROG IN C"    
+  164    "Leslie"    "CPSC CONCEPTS & PROGRAM"    
+  163    "David"    "COMPUTER ARCH & DESIGN"    
+  162    "Daniel"    "INTRO PGM DESIGN CONCEPT"    
+  161    "Roden"    "GAME DEVELOPMENT"    
+  160    "Ivan"    "SOFTWARE ENGINEERING"    
+  159    "Ivan"    "ARTIFICIAL INTELLIGENCE"    
+  158    "Kevin"    "INTRO TO COMPUTER SYSTEM"    
+  157    "Daniel"    "INTRO TO COMPUTER SYSTEM"    
+  156    "Roden"    "PROGRAMMING LANGUAGES"    
+  155    "Graham"    "GAME DEVELOPMENT"    
+  154    "Daniel"    "CPSC CONCEPTS & PROGRAM"    
+  153    "Hartman"    "INTRO PGM DESIGN CONCEPT"    
+  152    "David"    "COMPUTER GRAPHICS"    
+  151    "Storey"    "INTRO TO COMPUTER SYSTEM"    
+Disk I/O: 142
+Execution time: 10597.459999999985
+ 
+INSERT INTO student (sid, name, cid) VALUES( 150, "Storey", 328)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 149, "Graham", 330)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 148, "Ivan", 328)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 147, "Trigg", 315)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 146, "David", 324)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 145, "Hernandez", 320)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 144, "Leslie", 323)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 143, "Trigg", 316)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 142, "Deyana", 325)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 141, "Thothathri", 323)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 140, "Karappa", 315)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 139, "Frazee", 316)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 138, "Bui", 323)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 137, "Ivan", 323)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 136, "Karappa", 316)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 135, "Hartman", 328)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 134, "Deyana", 321)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 133, "Leslie", 330)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 132, "Nguyen", 314)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 131, "Trigg", 322)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 130, "Storey", 330)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 129, "Trigg", 329)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 128, "Wilson", 319)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 127, "Roden", 317)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 126, "Karappa", 316)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 125, "Karappa", 326)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 124, "Karappa", 323)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 123, "Khoa", 324)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 122, "Kevin", 321)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 121, "Leslie", 319)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 120, "Deyana", 330)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 119, "Graham", 323)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 118, "Hernandez", 319)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 117, "Thothathri", 329)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 116, "Bui", 319)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 115, "Storey", 315)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 114, "Roden", 323)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 113, "Vishwa", 329)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 112, "Leslie", 330)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 111, "Leslie", 319)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 110, "Nguyen", 325)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 109, "Ivan", 317)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 108, "Frazee", 324)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 107, "Vishwa", 328)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 106, "Daniel", 316)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 105, "Vishwa", 322)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 104, "Karappa", 324)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 103, "Vishwa", 323)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 102, "Virendra", 329)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 101, "David", 327)
+Disk I/O: 2
+Execution time: 149.26
+ 
+SELECT * FROM student
+sid  name  cid   
+  200    "Trigg"    329    
+  199    "Wilson"    325    
+  198    "Graham"    317    
+  197    "Kevin"    322    
+  196    "Trigg"    322    
+  195    "Trigg"    314    
+  194    "Khoa"    325    
+  193    "Hernandez"    331    
+  192    "Wilson"    331    
+  191    "Nguyen"    313    
+  190    "Graham"    331    
+  189    "Wilson"    327    
+  188    "Bui"    319    
+  187    "Wilson"    317    
+  186    "Storey"    329    
+  185    "Vishwa"    325    
+  184    "Daniel"    321    
+  183    "Nguyen"    322    
+  182    "Leslie"    325    
+  181    "Nguyen"    331    
+  180    "Jonathan"    319    
+  179    "Nguyen"    322    
+  178    "Deyana"    326    
+  177    "Karappa"    321    
+  176    "Trigg"    317    
+  175    "Ivan"    328    
+  174    "David"    328    
+  173    "Frazee"    316    
+  172    "Storey"    322    
+  171    "David"    316    
+  170    "Hernandez"    322    
+  169    "Kevin"    324    
+  168    "Jonathan"    322    
+  167    "Vishwa"    312    
+  166    "Wilson"    325    
+  165    "Ivan"    316    
+  164    "Leslie"    313    
+  163    "David"    323    
+  162    "Daniel"    314    
+  161    "Roden"    329    
+  160    "Ivan"    326    
+  159    "Ivan"    325    
+  158    "Kevin"    320    
+  157    "Daniel"    320    
+  156    "Roden"    321    
+  155    "Graham"    329    
+  154    "Daniel"    313    
+  153    "Hartman"    314    
+  152    "David"    328    
+  151    "Storey"    320    
+  150    "Storey"    328    
+  149    "Graham"    330    
+  148    "Ivan"    328    
+  147    "Trigg"    315    
+  146    "David"    324    
+  145    "Hernandez"    320    
+  144    "Leslie"    323    
+  143    "Trigg"    316    
+  142    "Deyana"    325    
+  141    "Thothathri"    323    
+  140    "Karappa"    315    
+  139    "Frazee"    316    
+  138    "Bui"    323    
+  137    "Ivan"    323    
+  136    "Karappa"    316    
+  135    "Hartman"    328    
+  134    "Deyana"    321    
+  133    "Leslie"    330    
+  132    "Nguyen"    314    
+  131    "Trigg"    322    
+  130    "Storey"    330    
+  129    "Trigg"    329    
+  128    "Wilson"    319    
+  127    "Roden"    317    
+  126    "Karappa"    316    
+  125    "Karappa"    326    
+  124    "Karappa"    323    
+  123    "Khoa"    324    
+  122    "Kevin"    321    
+  121    "Leslie"    319    
+  120    "Deyana"    330    
+  119    "Graham"    323    
+  118    "Hernandez"    319    
+  117    "Thothathri"    329    
+  116    "Bui"    319    
+  115    "Storey"    315    
+  114    "Roden"    323    
+  113    "Vishwa"    329    
+  112    "Leslie"    330    
+  111    "Leslie"    319    
+  110    "Nguyen"    325    
+  109    "Ivan"    317    
+  108    "Frazee"    324    
+  107    "Vishwa"    328    
+  106    "Daniel"    316    
+  105    "Vishwa"    322    
+  104    "Karappa"    324    
+  103    "Vishwa"    323    
+  102    "Virendra"    329    
+  101    "David"    327    
+Disk I/O: 50
+Execution time: 3731.5000000000036
+ 
+SELECT student.sid, student.name, course.name FROM student, course WHERE student.cid = course.cid
+student.sid  student.name  course.name   
+  200    "Trigg"    "GAME DEVELOPMENT"    
+  199    "Wilson"    "ARTIFICIAL INTELLIGENCE"    
+  198    "Graham"    "DATA STRUC & ALGORITHM"    
+  197    "Kevin"    "PROGRAMMING STUDIO"    
+  196    "Trigg"    "PROGRAMMING STUDIO"    
+  195    "Trigg"    "INTRO PGM DESIGN CONCEPT"    
+  194    "Khoa"    "ARTIFICIAL INTELLIGENCE"    
+  193    "Hernandez"    "CLOUD COMPUTING"    
+  192    "Wilson"    "CLOUD COMPUTING"    
+  191    "Nguyen"    "CPSC CONCEPTS & PROGRAM"    
+  190    "Graham"    "CLOUD COMPUTING"    
+  189    "Wilson"    "FORMAL LANGUAGES AUTOM"    
+  188    "Bui"    "COMPUTER ORGANIZATION"    
+  187    "Wilson"    "DATA STRUC & ALGORITHM"    
+  186    "Storey"    "GAME DEVELOPMENT"    
+  185    "Vishwa"    "ARTIFICIAL INTELLIGENCE"    
+  184    "Daniel"    "PROGRAMMING LANGUAGES"    
+  183    "Nguyen"    "PROGRAMMING STUDIO"    
+  182    "Leslie"    "ARTIFICIAL INTELLIGENCE"    
+  181    "Nguyen"    "CLOUD COMPUTING"    
+  180    "Jonathan"    "COMPUTER ORGANIZATION"    
+  179    "Nguyen"    "PROGRAMMING STUDIO"    
+  178    "Deyana"    "SOFTWARE ENGINEERING"    
+  177    "Karappa"    "PROGRAMMING LANGUAGES"    
+  176    "Trigg"    "DATA STRUC & ALGORITHM"    
+  175    "Ivan"    "COMPUTER GRAPHICS"    
+  174    "David"    "COMPUTER GRAPHICS"    
+  173    "Frazee"    "STRUCTURED PROG IN C"    
+  172    "Storey"    "PROGRAMMING STUDIO"    
+  171    "David"    "STRUCTURED PROG IN C"    
+  170    "Hernandez"    "PROGRAMMING STUDIO"    
+  169    "Kevin"    "DESIGN ANALY ALGORITHMS"    
+  168    "Jonathan"    "PROGRAMMING STUDIO"    
+  166    "Wilson"    "ARTIFICIAL INTELLIGENCE"    
+  165    "Ivan"    "STRUCTURED PROG IN C"    
+  164    "Leslie"    "CPSC CONCEPTS & PROGRAM"    
+  163    "David"    "COMPUTER ARCH & DESIGN"    
+  162    "Daniel"    "INTRO PGM DESIGN CONCEPT"    
+  161    "Roden"    "GAME DEVELOPMENT"    
+  160    "Ivan"    "SOFTWARE ENGINEERING"    
+  159    "Ivan"    "ARTIFICIAL INTELLIGENCE"    
+  158    "Kevin"    "INTRO TO COMPUTER SYSTEM"    
+  157    "Daniel"    "INTRO TO COMPUTER SYSTEM"    
+  156    "Roden"    "PROGRAMMING LANGUAGES"    
+  155    "Graham"    "GAME DEVELOPMENT"    
+  154    "Daniel"    "CPSC CONCEPTS & PROGRAM"    
+  153    "Hartman"    "INTRO PGM DESIGN CONCEPT"    
+  152    "David"    "COMPUTER GRAPHICS"    
+  151    "Storey"    "INTRO TO COMPUTER SYSTEM"    
+  150    "Storey"    "COMPUTER GRAPHICS"    
+  149    "Graham"    "COMPUTERS AND NEW MEDIA"    
+  148    "Ivan"    "COMPUTER GRAPHICS"    
+  147    "Trigg"    "INTRO TO COMPUTING"    
+  146    "David"    "DESIGN ANALY ALGORITHMS"    
+  145    "Hernandez"    "INTRO TO COMPUTER SYSTEM"    
+  144    "Leslie"    "COMPUTER ARCH & DESIGN"    
+  143    "Trigg"    "STRUCTURED PROG IN C"    
+  142    "Deyana"    "ARTIFICIAL INTELLIGENCE"    
+  141    "Thothathri"    "COMPUTER ARCH & DESIGN"    
+  140    "Karappa"    "INTRO TO COMPUTING"    
+  139    "Frazee"    "STRUCTURED PROG IN C"    
+  138    "Bui"    "COMPUTER ARCH & DESIGN"    
+  137    "Ivan"    "COMPUTER ARCH & DESIGN"    
+  136    "Karappa"    "STRUCTURED PROG IN C"    
+  135    "Hartman"    "COMPUTER GRAPHICS"    
+  134    "Deyana"    "PROGRAMMING LANGUAGES"    
+  133    "Leslie"    "COMPUTERS AND NEW MEDIA"    
+  132    "Nguyen"    "INTRO PGM DESIGN CONCEPT"    
+  131    "Trigg"    "PROGRAMMING STUDIO"    
+  130    "Storey"    "COMPUTERS AND NEW MEDIA"    
+  129    "Trigg"    "GAME DEVELOPMENT"    
+  128    "Wilson"    "COMPUTER ORGANIZATION"    
+  127    "Roden"    "DATA STRUC & ALGORITHM"    
+  126    "Karappa"    "STRUCTURED PROG IN C"    
+  125    "Karappa"    "SOFTWARE ENGINEERING"    
+  124    "Karappa"    "COMPUTER ARCH & DESIGN"    
+  123    "Khoa"    "DESIGN ANALY ALGORITHMS"    
+  122    "Kevin"    "PROGRAMMING LANGUAGES"    
+  121    "Leslie"    "COMPUTER ORGANIZATION"    
+  120    "Deyana"    "COMPUTERS AND NEW MEDIA"    
+  119    "Graham"    "COMPUTER ARCH & DESIGN"    
+  118    "Hernandez"    "COMPUTER ORGANIZATION"    
+  117    "Thothathri"    "GAME DEVELOPMENT"    
+  116    "Bui"    "COMPUTER ORGANIZATION"    
+  115    "Storey"    "INTRO TO COMPUTING"    
+  114    "Roden"    "COMPUTER ARCH & DESIGN"    
+  113    "Vishwa"    "GAME DEVELOPMENT"    
+  112    "Leslie"    "COMPUTERS AND NEW MEDIA"    
+  111    "Leslie"    "COMPUTER ORGANIZATION"    
+  110    "Nguyen"    "ARTIFICIAL INTELLIGENCE"    
+  109    "Ivan"    "DATA STRUC & ALGORITHM"    
+  108    "Frazee"    "DESIGN ANALY ALGORITHMS"    
+  107    "Vishwa"    "COMPUTER GRAPHICS"    
+  106    "Daniel"    "STRUCTURED PROG IN C"    
+  105    "Vishwa"    "PROGRAMMING STUDIO"    
+  104    "Karappa"    "DESIGN ANALY ALGORITHMS"    
+  103    "Vishwa"    "COMPUTER ARCH & DESIGN"    
+  102    "Virendra"    "GAME DEVELOPMENT"    
+  101    "David"    "FORMAL LANGUAGES AUTOM"    
+Disk I/O: 242
+Execution time: 18060.459999999945
+ 
+INSERT INTO student (sid, name, cid) VALUES( 100, "Graham", 322)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 99, "Thothathri", 324)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 98, "Ivan", 329)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 97, "Frazee", 312)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 96, "Storey", 320)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 95, "Khoa", 328)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 94, "Trigg", 318)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 93, "Vishwa", 313)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 92, "Ivan", 317)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 91, "Graham", 314)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 90, "Ivan", 330)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 89, "Vishwa", 323)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 88, "Hernandez", 329)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 87, "Thothathri", 324)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 86, "Virendra", 324)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 85, "Leslie", 328)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 84, "Khoa", 315)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 83, "Virendra", 319)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 82, "Jonathan", 330)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 81, "Storey", 313)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 80, "Wilson", 318)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 79, "Trigg", 327)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 78, "Deyana", 329)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 77, "Trigg", 320)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 76, "Virendra", 317)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 75, "Thothathri", 327)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 74, "David", 322)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 73, "Kevin", 319)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 72, "Ivan", 313)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 71, "Frazee", 316)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 70, "Kevin", 321)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 69, "Leslie", 324)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 68, "Kevin", 328)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 67, "Roden", 324)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 66, "Hartman", 328)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 65, "Wilson", 326)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 64, "Virendra", 317)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 63, "Deyana", 324)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 62, "Kevin", 317)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 61, "David", 330)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 60, "Daniel", 329)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 59, "Ivan", 324)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 58, "Jonathan", 312)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 57, "David", 324)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 56, "Jonathan", 316)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 55, "Graham", 323)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 54, "Daniel", 320)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 53, "Thothathri", 321)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 52, "Graham", 325)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 51, "Hartman", 314)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 50, "Virendra", 330)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 49, "David", 320)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 48, "Khoa", 322)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 47, "Vishwa", 329)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 46, "Leslie", 330)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 45, "Roden", 317)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 44, "Roden", 331)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 43, "Karappa", 324)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 42, "Ivan", 322)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 41, "Hartman", 326)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 40, "Daniel", 317)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 39, "David", 331)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 38, "Roden", 322)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 37, "Graham", 316)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 36, "Thothathri", 329)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 35, "Trigg", 327)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 34, "Deyana", 320)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 33, "Khoa", 323)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 32, "Jonathan", 316)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 31, "Khoa", 325)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 30, "Graham", 324)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 29, "Jonathan", 323)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 28, "Hernandez", 312)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 27, "Deyana", 322)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 26, "Trigg", 327)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 25, "Wilson", 326)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 24, "David", 324)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 23, "Bui", 330)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 22, "Thothathri", 319)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 21, "Khoa", 315)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 20, "Deyana", 330)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 19, "Hernandez", 320)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 18, "Jonathan", 327)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 17, "Leslie", 325)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 16, "Wilson", 321)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 15, "Wilson", 318)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 14, "Virendra", 322)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 13, "Trigg", 320)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 12, "Deyana", 327)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 11, "Jonathan", 315)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 10, "Khoa", 326)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 9, "Frazee", 324)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 8, "Kevin", 314)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 7, "Kevin", 328)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 6, "Trigg", 322)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 5, "Virendra", 320)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 4, "Virendra", 327)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 3, "Ivan", 316)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 2, "Roden", 327)
+Disk I/O: 2
+Execution time: 149.26
+ 
+INSERT INTO student (sid, name, cid) VALUES( 1, "Storey", 330)
+Disk I/O: 2
+Execution time: 149.26
+ 
+SELECT * FROM student
+sid  name  cid   
+  200    "Trigg"    329    
+  199    "Wilson"    325    
+  198    "Graham"    317    
+  197    "Kevin"    322    
+  196    "Trigg"    322    
+  195    "Trigg"    314    
+  194    "Khoa"    325    
+  193    "Hernandez"    331    
+  192    "Wilson"    331    
+  191    "Nguyen"    313    
+  190    "Graham"    331    
+  189    "Wilson"    327    
+  188    "Bui"    319    
+  187    "Wilson"    317    
+  186    "Storey"    329    
+  185    "Vishwa"    325    
+  184    "Daniel"    321    
+  183    "Nguyen"    322    
+  182    "Leslie"    325    
+  181    "Nguyen"    331    
+  180    "Jonathan"    319    
+  179    "Nguyen"    322    
+  178    "Deyana"    326    
+  177    "Karappa"    321    
+  176    "Trigg"    317    
+  175    "Ivan"    328    
+  174    "David"    328    
+  173    "Frazee"    316    
+  172    "Storey"    322    
+  171    "David"    316    
+  170    "Hernandez"    322    
+  169    "Kevin"    324    
+  168    "Jonathan"    322    
+  167    "Vishwa"    312    
+  166    "Wilson"    325    
+  165    "Ivan"    316    
+  164    "Leslie"    313    
+  163    "David"    323    
+  162    "Daniel"    314    
+  161    "Roden"    329    
+  160    "Ivan"    326    
+  159    "Ivan"    325    
+  158    "Kevin"    320    
+  157    "Daniel"    320    
+  156    "Roden"    321    
+  155    "Graham"    329    
+  154    "Daniel"    313    
+  153    "Hartman"    314    
+  152    "David"    328    
+  151    "Storey"    320    
+  150    "Storey"    328    
+  149    "Graham"    330    
+  148    "Ivan"    328    
+  147    "Trigg"    315    
+  146    "David"    324    
+  145    "Hernandez"    320    
+  144    "Leslie"    323    
+  143    "Trigg"    316    
+  142    "Deyana"    325    
+  141    "Thothathri"    323    
+  140    "Karappa"    315    
+  139    "Frazee"    316    
+  138    "Bui"    323    
+  137    "Ivan"    323    
+  136    "Karappa"    316    
+  135    "Hartman"    328    
+  134    "Deyana"    321    
+  133    "Leslie"    330    
+  132    "Nguyen"    314    
+  131    "Trigg"    322    
+  130    "Storey"    330    
+  129    "Trigg"    329    
+  128    "Wilson"    319    
+  127    "Roden"    317    
+  126    "Karappa"    316    
+  125    "Karappa"    326    
+  124    "Karappa"    323    
+  123    "Khoa"    324    
+  122    "Kevin"    321    
+  121    "Leslie"    319    
+  120    "Deyana"    330    
+  119    "Graham"    323    
+  118    "Hernandez"    319    
+  117    "Thothathri"    329    
+  116    "Bui"    319    
+  115    "Storey"    315    
+  114    "Roden"    323    
+  113    "Vishwa"    329    
+  112    "Leslie"    330    
+  111    "Leslie"    319    
+  110    "Nguyen"    325    
+  109    "Ivan"    317    
+  108    "Frazee"    324    
+  107    "Vishwa"    328    
+  106    "Daniel"    316    
+  105    "Vishwa"    322    
+  104    "Karappa"    324    
+  103    "Vishwa"    323    
+  102    "Virendra"    329    
+  101    "David"    327    
+  100    "Graham"    322    
+  99    "Thothathri"    324    
+  98    "Ivan"    329    
+  97    "Frazee"    312    
+  96    "Storey"    320    
+  95    "Khoa"    328    
+  94    "Trigg"    318    
+  93    "Vishwa"    313    
+  92    "Ivan"    317    
+  91    "Graham"    314    
+  90    "Ivan"    330    
+  89    "Vishwa"    323    
+  88    "Hernandez"    329    
+  87    "Thothathri"    324    
+  86    "Virendra"    324    
+  85    "Leslie"    328    
+  84    "Khoa"    315    
+  83    "Virendra"    319    
+  82    "Jonathan"    330    
+  81    "Storey"    313    
+  80    "Wilson"    318    
+  79    "Trigg"    327    
+  78    "Deyana"    329    
+  77    "Trigg"    320    
+  76    "Virendra"    317    
+  75    "Thothathri"    327    
+  74    "David"    322    
+  73    "Kevin"    319    
+  72    "Ivan"    313    
+  71    "Frazee"    316    
+  70    "Kevin"    321    
+  69    "Leslie"    324    
+  68    "Kevin"    328    
+  67    "Roden"    324    
+  66    "Hartman"    328    
+  65    "Wilson"    326    
+  64    "Virendra"    317    
+  63    "Deyana"    324    
+  62    "Kevin"    317    
+  61    "David"    330    
+  60    "Daniel"    329    
+  59    "Ivan"    324    
+  58    "Jonathan"    312    
+  57    "David"    324    
+  56    "Jonathan"    316    
+  55    "Graham"    323    
+  54    "Daniel"    320    
+  53    "Thothathri"    321    
+  52    "Graham"    325    
+  51    "Hartman"    314    
+  50    "Virendra"    330    
+  49    "David"    320    
+  48    "Khoa"    322    
+  47    "Vishwa"    329    
+  46    "Leslie"    330    
+  45    "Roden"    317    
+  44    "Roden"    331    
+  43    "Karappa"    324    
+  42    "Ivan"    322    
+  41    "Hartman"    326    
+  40    "Daniel"    317    
+  39    "David"    331    
+  38    "Roden"    322    
+  37    "Graham"    316    
+  36    "Thothathri"    329    
+  35    "Trigg"    327    
+  34    "Deyana"    320    
+  33    "Khoa"    323    
+  32    "Jonathan"    316    
+  31    "Khoa"    325    
+  30    "Graham"    324    
+  29    "Jonathan"    323    
+  28    "Hernandez"    312    
+  27    "Deyana"    322    
+  26    "Trigg"    327    
+  25    "Wilson"    326    
+  24    "David"    324    
+  23    "Bui"    330    
+  22    "Thothathri"    319    
+  21    "Khoa"    315    
+  20    "Deyana"    330    
+  19    "Hernandez"    320    
+  18    "Jonathan"    327    
+  17    "Leslie"    325    
+  16    "Wilson"    321    
+  15    "Wilson"    318    
+  14    "Virendra"    322    
+  13    "Trigg"    320    
+  12    "Deyana"    327    
+  11    "Jonathan"    315    
+  10    "Khoa"    326    
+  9    "Frazee"    324    
+  8    "Kevin"    314    
+  7    "Kevin"    328    
+  6    "Trigg"    322    
+  5    "Virendra"    320    
+  4    "Virendra"    327    
+  3    "Ivan"    316    
+  2    "Roden"    327    
+  1    "Storey"    330    
+Disk I/O: 100
+Execution time: 7463.000000000009
+ 
+SELECT 	sid, name FROM student WHERE cid = 313
+sid  name   
+  191    "Nguyen"    
+  164    "Leslie"    
+  154    "Daniel"    
+  93    "Vishwa"    
+  81    "Storey"    
+  72    "Ivan"    
+Disk I/O: 100
+Execution time: 7463.000000000009
+ 
+SELECT * FROM student WHERE sid = 22
+sid  name  cid   
+  22    "Thothathri"    319    
+Disk I/O: 100
+Execution time: 7463.000000000009
+ 
+SELECT student.sid, student.name, course.name FROM student, course WHERE student.cid = course.cid
+student.sid  student.name  course.name   
+  200    "Trigg"    "GAME DEVELOPMENT"    
+  199    "Wilson"    "ARTIFICIAL INTELLIGENCE"    
+  198    "Graham"    "DATA STRUC & ALGORITHM"    
+  197    "Kevin"    "PROGRAMMING STUDIO"    
+  196    "Trigg"    "PROGRAMMING STUDIO"    
+  195    "Trigg"    "INTRO PGM DESIGN CONCEPT"    
+  194    "Khoa"    "ARTIFICIAL INTELLIGENCE"    
+  193    "Hernandez"    "CLOUD COMPUTING"    
+  192    "Wilson"    "CLOUD COMPUTING"    
+  191    "Nguyen"    "CPSC CONCEPTS & PROGRAM"    
+  190    "Graham"    "CLOUD COMPUTING"    
+  189    "Wilson"    "FORMAL LANGUAGES AUTOM"    
+  188    "Bui"    "COMPUTER ORGANIZATION"    
+  187    "Wilson"    "DATA STRUC & ALGORITHM"    
+  186    "Storey"    "GAME DEVELOPMENT"    
+  185    "Vishwa"    "ARTIFICIAL INTELLIGENCE"    
+  184    "Daniel"    "PROGRAMMING LANGUAGES"    
+  183    "Nguyen"    "PROGRAMMING STUDIO"    
+  182    "Leslie"    "ARTIFICIAL INTELLIGENCE"    
+  181    "Nguyen"    "CLOUD COMPUTING"    
+  180    "Jonathan"    "COMPUTER ORGANIZATION"    
+  179    "Nguyen"    "PROGRAMMING STUDIO"    
+  178    "Deyana"    "SOFTWARE ENGINEERING"    
+  177    "Karappa"    "PROGRAMMING LANGUAGES"    
+  176    "Trigg"    "DATA STRUC & ALGORITHM"    
+  175    "Ivan"    "COMPUTER GRAPHICS"    
+  174    "David"    "COMPUTER GRAPHICS"    
+  173    "Frazee"    "STRUCTURED PROG IN C"    
+  172    "Storey"    "PROGRAMMING STUDIO"    
+  171    "David"    "STRUCTURED PROG IN C"    
+  170    "Hernandez"    "PROGRAMMING STUDIO"    
+  169    "Kevin"    "DESIGN ANALY ALGORITHMS"    
+  168    "Jonathan"    "PROGRAMMING STUDIO"    
+  166    "Wilson"    "ARTIFICIAL INTELLIGENCE"    
+  165    "Ivan"    "STRUCTURED PROG IN C"    
+  164    "Leslie"    "CPSC CONCEPTS & PROGRAM"    
+  163    "David"    "COMPUTER ARCH & DESIGN"    
+  162    "Daniel"    "INTRO PGM DESIGN CONCEPT"    
+  161    "Roden"    "GAME DEVELOPMENT"    
+  160    "Ivan"    "SOFTWARE ENGINEERING"    
+  159    "Ivan"    "ARTIFICIAL INTELLIGENCE"    
+  158    "Kevin"    "INTRO TO COMPUTER SYSTEM"    
+  157    "Daniel"    "INTRO TO COMPUTER SYSTEM"    
+  156    "Roden"    "PROGRAMMING LANGUAGES"    
+  155    "Graham"    "GAME DEVELOPMENT"    
+  154    "Daniel"    "CPSC CONCEPTS & PROGRAM"    
+  153    "Hartman"    "INTRO PGM DESIGN CONCEPT"    
+  152    "David"    "COMPUTER GRAPHICS"    
+  151    "Storey"    "INTRO TO COMPUTER SYSTEM"    
+  150    "Storey"    "COMPUTER GRAPHICS"    
+  149    "Graham"    "COMPUTERS AND NEW MEDIA"    
+  148    "Ivan"    "COMPUTER GRAPHICS"    
+  147    "Trigg"    "INTRO TO COMPUTING"    
+  146    "David"    "DESIGN ANALY ALGORITHMS"    
+  145    "Hernandez"    "INTRO TO COMPUTER SYSTEM"    
+  144    "Leslie"    "COMPUTER ARCH & DESIGN"    
+  143    "Trigg"    "STRUCTURED PROG IN C"    
+  142    "Deyana"    "ARTIFICIAL INTELLIGENCE"    
+  141    "Thothathri"    "COMPUTER ARCH & DESIGN"    
+  140    "Karappa"    "INTRO TO COMPUTING"    
+  139    "Frazee"    "STRUCTURED PROG IN C"    
+  138    "Bui"    "COMPUTER ARCH & DESIGN"    
+  137    "Ivan"    "COMPUTER ARCH & DESIGN"    
+  136    "Karappa"    "STRUCTURED PROG IN C"    
+  135    "Hartman"    "COMPUTER GRAPHICS"    
+  134    "Deyana"    "PROGRAMMING LANGUAGES"    
+  133    "Leslie"    "COMPUTERS AND NEW MEDIA"    
+  132    "Nguyen"    "INTRO PGM DESIGN CONCEPT"    
+  131    "Trigg"    "PROGRAMMING STUDIO"    
+  130    "Storey"    "COMPUTERS AND NEW MEDIA"    
+  129    "Trigg"    "GAME DEVELOPMENT"    
+  128    "Wilson"    "COMPUTER ORGANIZATION"    
+  127    "Roden"    "DATA STRUC & ALGORITHM"    
+  126    "Karappa"    "STRUCTURED PROG IN C"    
+  125    "Karappa"    "SOFTWARE ENGINEERING"    
+  124    "Karappa"    "COMPUTER ARCH & DESIGN"    
+  123    "Khoa"    "DESIGN ANALY ALGORITHMS"    
+  122    "Kevin"    "PROGRAMMING LANGUAGES"    
+  121    "Leslie"    "COMPUTER ORGANIZATION"    
+  120    "Deyana"    "COMPUTERS AND NEW MEDIA"    
+  119    "Graham"    "COMPUTER ARCH & DESIGN"    
+  118    "Hernandez"    "COMPUTER ORGANIZATION"    
+  117    "Thothathri"    "GAME DEVELOPMENT"    
+  116    "Bui"    "COMPUTER ORGANIZATION"    
+  115    "Storey"    "INTRO TO COMPUTING"    
+  114    "Roden"    "COMPUTER ARCH & DESIGN"    
+  113    "Vishwa"    "GAME DEVELOPMENT"    
+  112    "Leslie"    "COMPUTERS AND NEW MEDIA"    
+  111    "Leslie"    "COMPUTER ORGANIZATION"    
+  110    "Nguyen"    "ARTIFICIAL INTELLIGENCE"    
+  109    "Ivan"    "DATA STRUC & ALGORITHM"    
+  108    "Frazee"    "DESIGN ANALY ALGORITHMS"    
+  107    "Vishwa"    "COMPUTER GRAPHICS"    
+  106    "Daniel"    "STRUCTURED PROG IN C"    
+  105    "Vishwa"    "PROGRAMMING STUDIO"    
+  104    "Karappa"    "DESIGN ANALY ALGORITHMS"    
+  103    "Vishwa"    "COMPUTER ARCH & DESIGN"    
+  102    "Virendra"    "GAME DEVELOPMENT"    
+  101    "David"    "FORMAL LANGUAGES AUTOM"    
+  100    "Graham"    "PROGRAMMING STUDIO"    
+  99    "Thothathri"    "DESIGN ANALY ALGORITHMS"    
+  98    "Ivan"    "GAME DEVELOPMENT"    
+  96    "Storey"    "INTRO TO COMPUTER SYSTEM"    
+  95    "Khoa"    "COMPUTER GRAPHICS"    
+  94    "Trigg"    "DISCRETE STRUC COMPUTING"    
+  93    "Vishwa"    "CPSC CONCEPTS & PROGRAM"    
+  92    "Ivan"    "DATA STRUC & ALGORITHM"    
+  91    "Graham"    "INTRO PGM DESIGN CONCEPT"    
+  90    "Ivan"    "COMPUTERS AND NEW MEDIA"    
+  89    "Vishwa"    "COMPUTER ARCH & DESIGN"    
+  88    "Hernandez"    "GAME DEVELOPMENT"    
+  87    "Thothathri"    "DESIGN ANALY ALGORITHMS"    
+  86    "Virendra"    "DESIGN ANALY ALGORITHMS"    
+  85    "Leslie"    "COMPUTER GRAPHICS"    
+  84    "Khoa"    "INTRO TO COMPUTING"    
+  83    "Virendra"    "COMPUTER ORGANIZATION"    
+  82    "Jonathan"    "COMPUTERS AND NEW MEDIA"    
+  81    "Storey"    "CPSC CONCEPTS & PROGRAM"    
+  80    "Wilson"    "DISCRETE STRUC COMPUTING"    
+  79    "Trigg"    "FORMAL LANGUAGES AUTOM"    
+  78    "Deyana"    "GAME DEVELOPMENT"    
+  77    "Trigg"    "INTRO TO COMPUTER SYSTEM"    
+  76    "Virendra"    "DATA STRUC & ALGORITHM"    
+  75    "Thothathri"    "FORMAL LANGUAGES AUTOM"    
+  74    "David"    "PROGRAMMING STUDIO"    
+  73    "Kevin"    "COMPUTER ORGANIZATION"    
+  72    "Ivan"    "CPSC CONCEPTS & PROGRAM"    
+  71    "Frazee"    "STRUCTURED PROG IN C"    
+  70    "Kevin"    "PROGRAMMING LANGUAGES"    
+  69    "Leslie"    "DESIGN ANALY ALGORITHMS"    
+  68    "Kevin"    "COMPUTER GRAPHICS"    
+  67    "Roden"    "DESIGN ANALY ALGORITHMS"    
+  66    "Hartman"    "COMPUTER GRAPHICS"    
+  65    "Wilson"    "SOFTWARE ENGINEERING"    
+  64    "Virendra"    "DATA STRUC & ALGORITHM"    
+  63    "Deyana"    "DESIGN ANALY ALGORITHMS"    
+  62    "Kevin"    "DATA STRUC & ALGORITHM"    
+  61    "David"    "COMPUTERS AND NEW MEDIA"    
+  60    "Daniel"    "GAME DEVELOPMENT"    
+  59    "Ivan"    "DESIGN ANALY ALGORITHMS"    
+  57    "David"    "DESIGN ANALY ALGORITHMS"    
+  56    "Jonathan"    "STRUCTURED PROG IN C"    
+  55    "Graham"    "COMPUTER ARCH & DESIGN"    
+  54    "Daniel"    "INTRO TO COMPUTER SYSTEM"    
+  53    "Thothathri"    "PROGRAMMING LANGUAGES"    
+  52    "Graham"    "ARTIFICIAL INTELLIGENCE"    
+  51    "Hartman"    "INTRO PGM DESIGN CONCEPT"    
+  50    "Virendra"    "COMPUTERS AND NEW MEDIA"    
+  49    "David"    "INTRO TO COMPUTER SYSTEM"    
+  48    "Khoa"    "PROGRAMMING STUDIO"    
+  47    "Vishwa"    "GAME DEVELOPMENT"    
+  46    "Leslie"    "COMPUTERS AND NEW MEDIA"    
+  45    "Roden"    "DATA STRUC & ALGORITHM"    
+  44    "Roden"    "CLOUD COMPUTING"    
+  43    "Karappa"    "DESIGN ANALY ALGORITHMS"    
+  42    "Ivan"    "PROGRAMMING STUDIO"    
+  41    "Hartman"    "SOFTWARE ENGINEERING"    
+  40    "Daniel"    "DATA STRUC & ALGORITHM"    
+  39    "David"    "CLOUD COMPUTING"    
+  38    "Roden"    "PROGRAMMING STUDIO"    
+  37    "Graham"    "STRUCTURED PROG IN C"    
+  36    "Thothathri"    "GAME DEVELOPMENT"    
+  35    "Trigg"    "FORMAL LANGUAGES AUTOM"    
+  34    "Deyana"    "INTRO TO COMPUTER SYSTEM"    
+  33    "Khoa"    "COMPUTER ARCH & DESIGN"    
+  32    "Jonathan"    "STRUCTURED PROG IN C"    
+  31    "Khoa"    "ARTIFICIAL INTELLIGENCE"    
+  30    "Graham"    "DESIGN ANALY ALGORITHMS"    
+  29    "Jonathan"    "COMPUTER ARCH & DESIGN"    
+  27    "Deyana"    "PROGRAMMING STUDIO"    
+  26    "Trigg"    "FORMAL LANGUAGES AUTOM"    
+  25    "Wilson"    "SOFTWARE ENGINEERING"    
+  24    "David"    "DESIGN ANALY ALGORITHMS"    
+  23    "Bui"    "COMPUTERS AND NEW MEDIA"    
+  22    "Thothathri"    "COMPUTER ORGANIZATION"    
+  21    "Khoa"    "INTRO TO COMPUTING"    
+  20    "Deyana"    "COMPUTERS AND NEW MEDIA"    
+  19    "Hernandez"    "INTRO TO COMPUTER SYSTEM"    
+  18    "Jonathan"    "FORMAL LANGUAGES AUTOM"    
+  17    "Leslie"    "ARTIFICIAL INTELLIGENCE"    
+  16    "Wilson"    "PROGRAMMING LANGUAGES"    
+  15    "Wilson"    "DISCRETE STRUC COMPUTING"    
+  14    "Virendra"    "PROGRAMMING STUDIO"    
+  13    "Trigg"    "INTRO TO COMPUTER SYSTEM"    
+  12    "Deyana"    "FORMAL LANGUAGES AUTOM"    
+  11    "Jonathan"    "INTRO TO COMPUTING"    
+  10    "Khoa"    "SOFTWARE ENGINEERING"    
+  9    "Frazee"    "DESIGN ANALY ALGORITHMS"    
+  8    "Kevin"    "INTRO PGM DESIGN CONCEPT"    
+  7    "Kevin"    "COMPUTER GRAPHICS"    
+  6    "Trigg"    "PROGRAMMING STUDIO"    
+  5    "Virendra"    "INTRO TO COMPUTER SYSTEM"    
+  4    "Virendra"    "FORMAL LANGUAGES AUTOM"    
+  3    "Ivan"    "STRUCTURED PROG IN C"    
+  2    "Roden"    "FORMAL LANGUAGES AUTOM"    
+  1    "Storey"    "COMPUTERS AND NEW MEDIA"    
+Disk I/O: 442
+Execution time: 32986.46000000014
+ 
